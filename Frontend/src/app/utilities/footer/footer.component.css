@@ -1,0 +1,22 @@
+p { 
+	font-size:15px; 
+	color:#CCC; 
+	padding-bottom:0px; 
+	margin-bottom:8px;	
+}
+
+a {
+	color: white;
+}
+
+ul{
+	padding: 0%;
+	list-style-type:none; 
+	display:table;
+	font-size:14px;
+}
+
+li {
+	list-style-type:none
+}
+

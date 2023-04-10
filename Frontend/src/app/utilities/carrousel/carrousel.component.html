@@ -1,0 +1,17 @@
+<div class="container-fluid bg-dark">
+    <c-carousel [animate]="true" [interval]="2000" [dark]="true">
+        <c-carousel-inner>
+            <c-carousel-item *ngFor="let slide of slides">
+                <div style="text-align: center;">
+                    <img class="w-75" [src]="slide.src" alt="{{slide.title}}" loading="lazy" (click)="message()" />
+                </div>
+                <c-carousel-caption style="font-size: 30px;">
+                    <p class="text-light">{{slide.title}}</p>
+                    <p class="text-info">{{slide.subtitle}}</p>
+                </c-carousel-caption>
+            </c-carousel-item>
+        </c-carousel-inner>
+        <c-carousel-control caption="Anterior" direction="prev"></c-carousel-control>
+        <c-carousel-control caption="Siguiente" direction="next"></c-carousel-control>
+    </c-carousel>
+</div>
