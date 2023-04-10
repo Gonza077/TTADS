@@ -1,0 +1,54 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "userName": "Zalo",
+      "password": "typicode",
+      "completeName": "",
+      "phone": "",
+      "address": "",
+      "email": ""
+    }
+  ],
+  "locals": [
+    {
+      "_id": 1,
+      "localName": "Mc Donalds",
+      "description": "Mc Donalds Zona Oeste",
+      "shippingCost": "50$",
+      "shippingTime": "20-40 min",
+      "address": "Calle Falsa 123",
+      "tags": [
+        "Gordos tetones",
+        "Comidia rapida"
+      ],
+      "productos": [
+        {},
+        {}
+      ],
+      "image": "",
+      "imagePath": ""
+    },
+    {
+      "_id": 1,
+      "localName": "Mc Donalds",
+      "description": "Mc Donalds Zona Oeste",
+      "shippingCost": "50$",
+      "shippingTime": "20-40 min",
+      "address": "Calle Falsa 123",
+      "tags": [
+        "Gordos tetones",
+        "Comidia rapida"
+      ],
+      "productos": [
+        {},
+        {}
+      ],
+      "image": "",
+      "imagePath": ""
+    }
+  ],
+  "orders": {
+    "name": "typicode"
+  }
+}

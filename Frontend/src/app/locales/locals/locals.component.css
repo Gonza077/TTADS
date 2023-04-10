@@ -1,0 +1,8 @@
+.example-card {
+    max-width: 300px;
+}
+
+.example-header-image {
+    background-image: url('https://www.mcdonalds.com.ar/images/layout/mcdonalds-logo-bg-red.png');
+    background-size: cover;
+}

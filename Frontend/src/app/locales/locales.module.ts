@@ -19,7 +19,7 @@ import { LocalItemComponent } from './local-item/local-item.component';
     CommonModule,
     LocalesRoutingModule,
     AngularMaterialModule,
-    CoreUIModule
+    CoreUIModule,
   ]
 })
 export class LocalesModule { }
