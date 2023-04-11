@@ -12,28 +12,39 @@ import { UserService } from '../services/user/user.service';
 
 export class UsersComponent {
 
-
   @Input()
   pageSize!: number;
 
-  lenght!:number;
+  lenght!: number;
   pageNum: number = 0;
   pageSizeOptions = [5, 10, 20]
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ['name'];
+  displayedColumns: string[] = ["name","completeName","address","email", "options"];
 
   constructor(
     private userService: UserService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
+    this.getUsers();
+  }
+
+  getUsers() {
     this.userService.getUsers().subscribe(
       (data: any) => {
         this.dataSource.data = data;
-        console.log(data);
-      }
-    )
+        console.log(data);})
+  }
+
+  editUser(id: any) {
+    console.log("usuario editado")
+    this.getUsers();
+  }
+
+  deleteUser(id: any) {
+    console.log("usuario eliminado")
+    this.getUsers();
   }
 
   //-------------------------------PAGINADOR-------------------------------

@@ -10,6 +10,7 @@ import { CoreUIModule } from './core-ui/core-ui.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LocalesRoutingModule } from './locales/locales-routing.module';
 import { LocalesModule } from './locales/locales.module';
+import { ComponentsModule } from './components/components.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //----------------MODULOS----------------//
 
@@ -19,10 +20,6 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
-import { NavbarComponent } from './utilities/navbar/navbar.component';
-import { CarrouselComponent } from './utilities/carrousel/carrousel.component';
-import { FooterComponent } from './utilities/footer/footer.component';
-import { CardComponent } from './utilities/card/card.component';
 //----------------COMPONENTS----------------//
 
 @NgModule({
@@ -34,10 +31,8 @@ import { CardComponent } from './utilities/card/card.component';
     OrdersComponent,
     UsersComponent,
     //Componentes de modulo aparte
-    NavbarComponent,
-    FooterComponent,
-    CarrouselComponent,
-    CardComponent
+    // NavbarComponent,
+    // FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +40,7 @@ import { CardComponent } from './utilities/card/card.component';
     AngularMaterialModule,
     CoreUIModule,
     ReactiveFormsModule,
+    ComponentsModule,
     LocalesModule,
     ToastrModule.forRoot(),
     //Routing desde aca

@@ -23,8 +23,5 @@ export class LocalsComponent implements OnInit {
     )
   }
 
-  message(){
-    alert("COF COF")
-  }
 }
 

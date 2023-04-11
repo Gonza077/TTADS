@@ -9,12 +9,16 @@ import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: "full" },
+  //--------------------Principal pages--------------------//
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent },
+  //{ path: 'profile', component: ProfileComponent,canActivate:[] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'orders', component: OrdersComponent },
-  { path: 'users', component: UsersComponent },
+  { path: 'orders', component: OrdersComponent,canActivate:[]},
+  { path: 'users', component: UsersComponent, canActivate:[]},
+   //--------------------Principal pages--------------------//
   //Default routes redirect home
   { path: '**', component: HomeComponent },
 ];

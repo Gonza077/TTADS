@@ -17,11 +17,11 @@ export class UserService {
 
   //Esto deberia ser con alguna propiedad seteada del usuario
   isLoggin(){
-    return false;
+    return true;
   }
 
   isAdmin(){
-    return false;
+    return true;
   }
 
   getUser(userName: string) {

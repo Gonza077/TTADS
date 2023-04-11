@@ -7,6 +7,7 @@ import { ProductsComponent } from './products/products.component';
 import { ProductItemComponent } from './product-item/product-item.component';
 import { CoreUIModule } from '../core-ui/core-ui.module';
 import { LocalItemComponent } from './local-item/local-item.component';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { LocalItemComponent } from './local-item/local-item.component';
     LocalesRoutingModule,
     AngularMaterialModule,
     CoreUIModule,
+    ComponentsModule
   ]
 })
 export class LocalesModule { }

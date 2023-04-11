@@ -3,6 +3,15 @@
     {
       "id": 1,
       "userName": "Zalo",
+      "password": "zalo123",
+      "completeName": "Castillo, Gonzalo",
+      "phone": "",
+      "address": "Calle Falsa 123",
+      "email": "asdasdasdas@gmail.com"
+    },
+    {
+      "id": 2,
+      "userName": "Zalo",
       "password": "typicode",
       "completeName": "",
       "phone": "",
@@ -13,7 +22,7 @@
   "locals": [
     {
       "_id": 1,
-      "localName": "Mc Donalds",
+      "name": "Mc Donalds",
       "description": "Mc Donalds Zona Oeste",
       "shippingCost": "50$",
       "shippingTime": "20-40 min",
@@ -31,7 +40,61 @@
     },
     {
       "_id": 1,
-      "localName": "Mc Donalds",
+      "name": "Mc Donalds",
+      "description": "Mc Donalds Zona Oeste",
+      "shippingCost": "50$",
+      "shippingTime": "20-40 min",
+      "address": "Calle Falsa 123",
+      "tags": [
+        "Gordos tetones",
+        "Comidia rapida"
+      ],
+      "productos": [
+        {},
+        {}
+      ],
+      "image": "",
+      "imagePath": ""
+    },
+    {
+      "_id": 1,
+      "name": "Mc Donalds",
+      "description": "Mc Donalds Zona Oeste",
+      "shippingCost": "50$",
+      "shippingTime": "20-40 min",
+      "address": "Calle Falsa 123",
+      "tags": [
+        "Gordos tetones",
+        "Comidia rapida"
+      ],
+      "productos": [
+        {},
+        {}
+      ],
+      "image": "",
+      "imagePath": ""
+    },
+    {
+      "_id": 1,
+      "name": "Mc Donalds",
+      "description": "Mc Donalds Zona Oeste",
+      "shippingCost": "50$",
+      "shippingTime": "20-40 min",
+      "address": "Calle Falsa 123",
+      "tags": [
+        "Gordos tetones",
+        "Comidia rapida"
+      ],
+      "productos": [
+        {},
+        {}
+      ],
+      "image": "",
+      "imagePath": ""
+    },
+    {
+      "_id": 1,
+      "name": "Mc Donalds",
       "description": "Mc Donalds Zona Oeste",
       "shippingCost": "50$",
       "shippingTime": "20-40 min",

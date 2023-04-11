@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LocalsComponent } from './locals/locals.component';
+import { LocalItemComponent } from './local-item/local-item.component';
 
 const routes: Routes = [
   { path: 'locals', component: LocalsComponent },
-  { path: 'local', component: LocalsComponent,canActivate:[]},
+  { path: 'local/:name', component: LocalItemComponent},
   // { path: 'abm-local', component:   },
   // { path: 'crear-local', component:   },
   // { path: 'listar-producto/:idL', component:   },

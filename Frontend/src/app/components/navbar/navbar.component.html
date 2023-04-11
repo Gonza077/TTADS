@@ -1,0 +1,19 @@
+<mat-toolbar class="bg-danger">
+    <a class="text-light m-1 h5 " routerLink="/home" >Pedidosyan't</a>
+    <a class="btn text-light m-1" routerLink="/locals">Locales</a>
+    <ng-container *ngIf="userService.isLoggin(); else loginTemplate">    
+        <ng-container *ngIf="userService.isAdmin(); else userTemplate">
+            <a class="btn text-light" routerLink="/users">Usuarios</a>
+        </ng-container>
+        <ng-template #userTemplate>
+            <a class="btn text-light" routerLink="/orders">Mis pedidos</a>
+        </ng-template>
+        <span style="flex: 1 1 auto;"></span>
+        <a type="button" class="btn btn-outline-success m-1 text-light" routerLink="/profile">Perfil</a>
+        <a type="button" class="btn btn-outline-dark m-1 text-light" (click)="signOffUser()" routerLink="/home">Cerrar Sesion</a>
+    </ng-container>
+    <ng-template #loginTemplate>
+        <span style="flex: 1 1 auto;"></span>
+        <a type="button" class="btn btn-outline-success m-1 text-light" (click)="loginUser()"routerLink="/login">Iniciar Sesion</a>
+    </ng-template>
+</mat-toolbar>
