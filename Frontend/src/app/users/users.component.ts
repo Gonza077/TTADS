@@ -19,7 +19,7 @@ export class UsersComponent {
   pageNum: number = 0;
   pageSizeOptions = [5, 10, 20]
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["name","completeName","address","email", "options"];
+  displayedColumns: string[] = ["name","address","gender","age","email", "options"];
 
   constructor(
     private userService: UserService,
@@ -34,7 +34,7 @@ export class UsersComponent {
     this.userService.getUsers().subscribe(
       (data: any) => {
         this.dataSource.data = data;
-        console.log(data);})
+      })
   }
 
   editUser(id: any) {
