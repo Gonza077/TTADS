@@ -1,9 +1,6 @@
-const Local = require('../models/localSchema');
-const Producto = require('../models/productoSchema');
-const { unlink } = require('fs-extra');
-const path = require('path');
+const Local = require('../Schema/localSchema');
+const Producto = require('../Schema/productoSchema');
 const db = require('./DB');
-
 
 exports.addLocal = async (req, res) => {
     db.connectDB();
@@ -24,7 +21,7 @@ exports.addLocal = async (req, res) => {
 exports.listLocal = async (req, res) => {
     db.connectDB();
     Local.find()
-        .then((locales) =>{
+        .then((locales) =>{       
             res.send(locales)
         })
         .catch((error)=>{
@@ -107,8 +104,12 @@ exports.deleteLocal = async (req, res) => {
 }
 
 exports.selectLocal = async (req, res) => {
+    if (req.params.id === "favicon.ico") {
+        return ;
+    }
     db.connectDB();
-    console.log(req.params)
+    //POR DEFECTO CUANDO SE ENTRA A RUTA LOCAL BUSCA ESTE PARAMETRO, 
+    //FAVICON.ICO SI NO SE LLENA DEE ERRORES LA PANTALLA
     Local.findById(
         {_id:req.params.id}
     )

@@ -1,17 +1,16 @@
 const db = require('./controlers/DB');
-const Local = require('./models/localSchema');
-const Producto = require('./models/productoSchema');
+const Local = require('../Backend/Schema/localSchema.js');
 
-db.connectDB();
-/*
-Local.find()
-.then((docs) =>{
-    console.log(docs.forEach(prod => console.log(prod)));
-})
-.finally(()=>{
-    db.disconnectDB();
-});
-*/
+
+
+await db.connectDB();
+console.log("asdasdasda");
+Local.find().then(data=>console.log(data));
+db.disconnectDB();
+
+
+
+
 
 
 

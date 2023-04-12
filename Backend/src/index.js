@@ -2,19 +2,22 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+//-----------------------------ROUTES-----------------------------//
+const localRoutes = require('../routes/localRoutes');
+const userRoutes = require('../routes/userRoutes');
+//-----------------------------ROUTES-----------------------------//
 
-// creamos server
+//-----------------------------SERVER-----------------------------//
 const app = express();
 
-// importing routes
-const indexRoutes = require('../routes/local');
-const userRoutes = require('../routes/usuario');
-//const pedidoRoutes = require('../routes/pedido');
+//-----------IMPORTING ROUTES-----------//
+app.use('/', localRoutes);
+app.use('/user', userRoutes);
 
-// settings
+//-----------SETTINGS-----------//
 app.set('port', process.env.PORT || 4000);
 
-// middlewares
+//-----------MIDDLEWARES-----------//
 app.use(cors());
 app.use(express.json());
 
@@ -26,15 +29,11 @@ const storage = multer.diskStorage({
 })
 app.use(multer({ storage }).single('image'));
 
-// routes
-app.use('/', indexRoutes);
-app.use('/user', userRoutes);
-
-//static files
-
+//-----------STATIC FILES-----------//
 app.use(express.static(path.join(__dirname, '../public')));
 
-// starting the server
+//-----------STARTING SERVER-----------//
 app.listen(app.get('port'), () => {
   console.log(`Server on port ${app.get('port')}`);
 });
+//-----------STARTING SERVER-----------//
