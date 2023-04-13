@@ -11,5 +11,5 @@ var LocalSchema = new mongoose.Schema({
     imagePath: { type: String, default: '/uploads/' },
 });
 
-var Local = mongoose.model('local', LocalSchema);
+var Local = mongoose.model('locals', LocalSchema);
 module.exports = Local;

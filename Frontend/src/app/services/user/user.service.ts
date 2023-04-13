@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +7,8 @@ import { Observable, of } from 'rxjs';
 
 export class UserService {
 
-  urlBackend: string = "http://localhost:3000/users/";
-  user$!: Observable<true>;
+  //urlJSONServer: string = "http://localhost:3000/users/";
+  urlBackend: string = "http://localhost:4000/users/";
 
   constructor(
     private http: HttpClient) {
@@ -24,15 +23,16 @@ export class UserService {
     return true;
   }
 
-  getUser(userName: string) {
-    return this.http.get(this.urlBackend+userName);
+  getUsers(){
+    return this.http.get(this.urlBackend+"/list-usuario");
   }
 
-  getUsers(){
-    return this.http.get(this.urlBackend)
+  getUser(userName: string) {
+    return this.http.get(this.urlBackend+userName);
   }
 
   RegisterUser(valueForm: any) {
     return this.http.post(this.urlBackend, valueForm)
   }
+
 }

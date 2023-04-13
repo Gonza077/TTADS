@@ -42,11 +42,10 @@ exports.signIn = async (req, res) => {
 
 exports.listUsuario = async (req, res) => {
     db.connectDB()
-    //ESTO CON EL WEBTOKEN SE PUEDE VALIDAR PARA SABER SI ES EL ADMIN O NO
+    res.set('Access-Control-Allow-Origin', 'http://localhost:4200');
     Usuario.find()
         .then(usuarios =>{
-            usersFilter = usuarios.filter(user => user.usuario !="admin")
-            res.send(usersFilter);
+            res.send(usuarios);
             //res.send(usuarios);
         })
         .catch((error) =>{

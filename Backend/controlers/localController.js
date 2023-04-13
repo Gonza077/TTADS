@@ -2,6 +2,7 @@ const Local = require('../Schema/localSchema');
 const Producto = require('../Schema/productoSchema');
 const db = require('./DB');
 
+
 exports.addLocal = async (req, res) => {
     db.connectDB();
     new Local(req.body).save()
@@ -20,6 +21,7 @@ exports.addLocal = async (req, res) => {
 
 exports.listLocal = async (req, res) => {
     db.connectDB();
+    res.set('Access-Control-Allow-Origin', 'http://localhost:4200');
     Local.find()
         .then((locales) =>{       
             res.send(locales)
@@ -104,17 +106,17 @@ exports.deleteLocal = async (req, res) => {
 }
 
 exports.selectLocal = async (req, res) => {
+    //POR DEFECTO CUANDO SE ENTRA A RUTA LOCAL BUSCA ESTE PARAMETRO, 
+    //FAVICON.ICO SI NO SE LLENA DEE ERRORES LA PANTALLA
     if (req.params.id === "favicon.ico") {
         return ;
     }
     db.connectDB();
-    //POR DEFECTO CUANDO SE ENTRA A RUTA LOCAL BUSCA ESTE PARAMETRO, 
-    //FAVICON.ICO SI NO SE LLENA DEE ERRORES LA PANTALLA
     Local.findById(
         {_id:req.params.id}
     )
-        .then(() =>{
-
+        .then((local) =>{
+            res.send(local);
         })
         .catch((error) =>{
             console.error(error);
@@ -356,7 +358,7 @@ exports.editProducto = async (req, res) => {
 
 exports.findLocalesByName = async (req, res) => {
     db.connectDB();
-    await Local.find({ nombre: { $regex: req.params.name, $options: 'i' } })
+    await Local.find({ name: { $regex: req.params.name, $options: 'i' } })
         .then((locales) =>{
             res.json(locales);
         })

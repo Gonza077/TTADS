@@ -18,7 +18,6 @@ export class LocalsComponent implements OnInit {
     this.localService.getLocalsData().subscribe(
       (data: any) => {
         this.locals = data;
-        console.log(data);
       }
     )
   }

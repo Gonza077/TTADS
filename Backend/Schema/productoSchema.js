@@ -10,5 +10,5 @@ var ProductoSchema = new mongoose.Schema({
   imagePath: { type: String, default: '/uploads/' }
 });
 
-var Producto = mongoose.model('Producto', ProductoSchema);
+var Producto = mongoose.model('products', ProductoSchema);
 module.exports = Producto

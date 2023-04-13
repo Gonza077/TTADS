@@ -7,13 +7,14 @@ import { Injectable } from '@angular/core';
 })
 export class LocalService {
   
-  urlBackend: string = "http://localhost:3000/locals/"
+  //urlJSONServer: string = "http://localhost:3000/locals/"
+  urlBackend2: string = "http://localhost:4000/locals/"
 
   constructor(
     private http:HttpClient
   ) { }
 
   getLocalsData(){
-    return this.http.get(this.urlBackend);
+    return this.http.get(this.urlBackend2+"getLocals");
   }
 }

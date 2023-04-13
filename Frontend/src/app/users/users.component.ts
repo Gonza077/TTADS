@@ -31,10 +31,14 @@ export class UsersComponent {
   }
 
   getUsers() {
+    // this.userService.getUsers().subscribe(
+    //   (data: any) => {
+    //     this.dataSource.data = data;
+    // })
     this.userService.getUsers().subscribe(
       (data: any) => {
         this.dataSource.data = data;
-      })
+    })
   }
 
   editUser(id: any) {

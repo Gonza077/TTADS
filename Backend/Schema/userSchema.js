@@ -12,5 +12,5 @@ var UsuarioSchema = new mongoose.Schema({
     pedidos: {}
 });
 
-var Usuario = mongoose.model('usuario', UsuarioSchema);
+var Usuario = mongoose.model('users', UsuarioSchema);
 module.exports = Usuario;

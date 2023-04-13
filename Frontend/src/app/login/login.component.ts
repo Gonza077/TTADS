@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       //sessionStorage.clear();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   loginUser() {
     if (this.loginForm.valid) {

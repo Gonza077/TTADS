@@ -11,8 +11,8 @@ const userRoutes = require('../routes/userRoutes');
 const app = express();
 
 //-----------IMPORTING ROUTES-----------//
-app.use('/', localRoutes);
-app.use('/user', userRoutes);
+app.use('/locals/', localRoutes);
+app.use('/users/', userRoutes);
 
 //-----------SETTINGS-----------//
 app.set('port', process.env.PORT || 4000);

@@ -1,26 +1,32 @@
 const { Router } = require('express');
 const router = Router();
 const localController = require('../controlers/localController');
-const verifyToken = require('./userRoutes');
-const jwt = require('jsonwebtoken');
-//Rutas Local
+const verifyToken = require('../JWT/jwt');
 
-router.get('/', verifyToken, localController.listLocal);
-router.get('/:id/get-name', localController.nameLocal);
-router.post('/add-local', verifyToken, localController.addLocal);
-router.get('/:id', localController.selectLocal);
-router.delete('/:id', verifyToken, localController.deleteLocal);
-router.get('/:name/find-locales-name', localController.findLocalesByName);
-router.put('/:id', verifyToken, localController.updateLocal);
+//Rutas Local
+router.get('/getLocals', localController.listLocal);
+router.get('/localName/:name', localController.nameLocal);
+router.get('/getLocalByName/:name', localController.findLocalesByName);
+router.get('/getLocal/:id', localController.selectLocal); //DUDAS SOBRE ESTE ELEMENTO
+
+router.post('/addLocal', verifyToken, localController.addLocal);
+
+router.delete('/deleteLocal/:id', verifyToken, localController.deleteLocal);
+
+router.put('/updateLocal/:id', verifyToken, localController.updateLocal);
 
 //Rutas Productos
 
-router.get('/:id/list-product', verifyToken, localController.listProducto);
-router.post('/:id/add-product', verifyToken, localController.addProducto);
-router.get('/:idLoc/get-product/:idPro', localController.obtenerProducto);
-router.put('/:idLoc/edit-product/:nomProd', verifyToken, localController.editProducto);
-router.delete('/:idLoc/delete-product/:nomProd', verifyToken, localController.deleteProducto);
-router.get('/:id/find-productos-name/:name', localController.findProductosByName);
+router.get('/listProducts/:id/', verifyToken, localController.listProducto);
+router.get('/getProductsByName/:id/:name', localController.findProductosByName);
+router.get('/getProduct/:idLoc/:idPro', localController.obtenerProducto);
+
+router.post('/addProduct/:id/', verifyToken, localController.addProducto);
+
+router.put('/editProduct/:idLoc/:nomProd', verifyToken, localController.editProducto);
+
+router.delete('/deleteProduct/:idLoc/:nomProd', verifyToken, localController.deleteProducto);
+
 
 
 module.exports = router;
