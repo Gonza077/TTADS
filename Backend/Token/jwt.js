@@ -7,7 +7,6 @@ function addInfo(req, res) {
 function verifyToken (req, res, next)  {
     addInfo(req, res);
     //------------------FALTA LA GENERACION DE LOS TOKENSY VALIDACION //------------------      
-    console.log("Token validado");
 
     // if (!req.headers.authorization) {
     //      res.status(401).send("Request no autorizada")

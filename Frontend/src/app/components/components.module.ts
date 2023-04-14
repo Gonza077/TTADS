@@ -11,6 +11,8 @@ import { GoogleMapComponent } from './google-map/google-map.component';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CardComponent } from './card/card.component';
+import { AppRoutingModule } from '../app-routing.module';
+import { RouterModule } from '@angular/router';
 //---------------------COMPONENTES---------------------//
 
 const components=[
@@ -28,8 +30,8 @@ const components=[
   imports: [
     CommonModule,
     AngularMaterialModule,
-    LocalesRoutingModule,
-    CoreUIModule
+    CoreUIModule,
+    RouterModule,
   ],
   exports:[
     ...components

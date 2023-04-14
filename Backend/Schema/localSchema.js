@@ -8,7 +8,7 @@ var LocalSchema = new mongoose.Schema({
     productos: {},
     direccion: { type: String },
     tags: { type: String },
-    imagePath: { type: String, default: '/uploads/' },
+    // imagePath: { type: String, default: '/uploads/' },
 });
 
 var Local = mongoose.model('locals', LocalSchema);
