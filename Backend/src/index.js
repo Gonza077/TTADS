@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+
 //-----------------------------ROUTES-----------------------------//
 const localRoutes = require('../routes/localRoutes');
 const userRoutes = require('../routes/userRoutes');
@@ -19,6 +20,7 @@ app.set('port', process.env.PORT || 4000);
 
 //-----------MIDDLEWARES-----------//
 app.use(cors());
+
 app.use(express.json());
 
 const storage = multer.diskStorage({

@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const router = Router();
 const localController = require('../controlers/localController');
-const verifyToken = require('../JWT/jwt');
+const verifyToken = require('../Token/jwt');
 
 //Rutas Local
-router.get('/getLocals', localController.listLocal);
-router.get('/localName/:name', localController.nameLocal);
-router.get('/getLocalByName/:name', localController.findLocalesByName);
-router.get('/getLocal/:id', localController.selectLocal); //DUDAS SOBRE ESTE ELEMENTO
+router.get('/getLocals', verifyToken, localController.listLocal);
+router.get('/getLocal/:idLocal',verifyToken, localController.getLocal);
+router.get('/getLocalByName/:nameLocal',verifyToken, localController.findLocalesByName);
+//router.get('/getLocal/:idLocal', localController.selectLocal); //DUDAS SOBRE ESTE ELEMENTO
 
 router.post('/addLocal', verifyToken, localController.addLocal);
 

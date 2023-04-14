@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class UserService {
   }
 
   getUsers(){
-    return this.http.get(this.urlBackend+"/list-usuario");
+    return this.http.get(this.urlBackend+"getUsers");
   }
 
   getUser(userName: string) {

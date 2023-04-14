@@ -1,20 +1,19 @@
+const db = require('./DB');
 const Local = require('../Schema/localSchema');
 const Producto = require('../Schema/productoSchema');
-const db = require('./DB');
-
 
 exports.addLocal = async (req, res) => {
     db.connectDB();
     new Local(req.body).save()
-        .then((local) =>{ 
+        .then((local) => {
             //local.imagePath += req.file.filename;
             res.send(local);
         })
-        .catch((error) =>{
+        .catch((error) => {
             console.error(error);
             res.status(500).send('Hubo un erroral agregar el local');
         })
-        .finally(() =>{
+        .finally(() => {
             db.disconnectDB();
         })
 };
@@ -23,29 +22,29 @@ exports.listLocal = async (req, res) => {
     db.connectDB();
     res.set('Access-Control-Allow-Origin', 'http://localhost:4200');
     Local.find()
-        .then((locales) =>{       
+        .then((locales) => {
             res.send(locales)
         })
-        .catch((error)=>{
+        .catch((error) => {
             console.error(error);
-            res.status(500).send('Hubo un error al recuperar los locales');     
+            res.status(500).send('Hubo un error al recuperar los locales');
         })
-        .finally(()=>{
+        .finally(() => {
             db.disconnectDB()
         });
 };
 
-exports.nameLocal = async (req, res) => {
+exports.getLocal = async (req, res) => {
     db.connectDB();
-    Local.findOne({ _id: req.params.id }, 'nombre')
-        .then((local) =>{
-            res.send(local.nombre);
+    Local.findOne({ _id: req.params.idLocal })
+        .then((local) => {
+            res.send(local);
         })
-        .catch((error)=>{
+        .catch((error) => {
             console.error(error);
             res.status(500).send('Hubo un error al buscar el nombre del local');
         })
-        .finally(() =>{
+        .finally(() => {
             db.disconnectDB();
         })
 };
@@ -53,18 +52,15 @@ exports.nameLocal = async (req, res) => {
 exports.updateLocal = async (req, res) => {
     db.connectDB();
     Local.findOneAndUpdate(
-        { _id: req.body._id }, 
-        req.body, 
-        { new: true }
-    )
-        .then(() =>{
+        { _id: req.body._id }, req.body, { new: true })
+        .then(() => {
             res.status(200).send("Local actualizado con exito");
         })
-        .catch(() =>{
+        .catch(() => {
             console.error(error);
             res.status(500).send('Hubo un error');
         })
-        .finally(() =>{
+        .finally(() => {
             db.disconnectDB();
         })/*
     try {
@@ -90,80 +86,61 @@ exports.updateLocal = async (req, res) => {
 
 exports.deleteLocal = async (req, res) => {
     db.connectDB();
-    Local.findOneAndRemove(
-        { _id: req.params.id }
-    )
-        .then(() =>{
-            res.status(200).json("Se elimino al local correctamente");
-        })
-        .catch((error) =>{
-            console.error(error);
-            res.status(500).send('Hubo un error al eliminar el local seleccionado');
-        })
-        .finally(() =>{
-            db.disconnectDB();
-        });  
+    Local.findOneAndRemove( { _id: req.params.id } )
+    .then(() => {
+        res.status(200).json("Se elimino al local correctamente");
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500).send('Hubo un error al eliminar el local seleccionado');
+    })
+    .finally(() => {
+        db.disconnectDB();
+    });
 }
 
+
+
+//-----------------------FALTA PROBAR TODO ESTO-------------------------//
 exports.selectLocal = async (req, res) => {
-    //POR DEFECTO CUANDO SE ENTRA A RUTA LOCAL BUSCA ESTE PARAMETRO, 
-    //FAVICON.ICO SI NO SE LLENA DEE ERRORES LA PANTALLA
-    if (req.params.id === "favicon.ico") {
-        return ;
-    }
     db.connectDB();
-    Local.findById(
-        {_id:req.params.id}
-    )
-        .then((local) =>{
-            res.send(local);
-        })
-        .catch((error) =>{
-            console.error(error);
-            res.status(500).send('Hubo un error al seleccionar el local');
-        })
-        .finally(() =>{
-            db.disconnectDB();
-        })
-    /*
-    try {
-        let local = await Local.findById(req.params.id);
-        if (!local) {
-            res.status(404).json({ msg: 'No existe el local' });
-        }
-        res.json(local);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
-    }*/
+    Local.findById( { _id: req.params.id } )
+    .then( (local) => {
+        res.send(local);
+    })
+    .catch( (error) => {
+        console.error(error);
+        res.status(500).send('Hubo un error al seleccionar el local');
+    })
+    .finally(() => {
+        db.disconnectDB();
+    })
 };
 
 exports.addProducto = async (req, res) => {
     db.connectDB();
-    await Local.findById({
-        _id: req.params.id,
+    await Local.findById( { _id: req.params.id,} )
+    .then((local) => {
+        let producto = new Producto(req.body)
+        //FALTA ESTO DE LA IMAGEN
+        //const imagePath = '/uploads/' + req.file.filename;
+        //producto.imagePath = imagePath;
+        local.productos.push(producto);
+        Local.findByIdAndUpdate(
+            { _id: local._id },
+            local
+        )
+            .then((local) => {
+                res.status(200).send(local);
+            })
+            .finally(() => {
+                db.disconnectDB();
+            })
     })
-        .then((local) =>{
-            let producto=new Producto(req.body)
-            //FALTA ESTO DE LA IMAGEN
-            //const imagePath = '/uploads/' + req.file.filename;
-            //producto.imagePath = imagePath;
-            local.productos.push( producto );
-            Local.findByIdAndUpdate(
-                { _id: local._id }, 
-                local
-            )
-                .then((local)=>{
-                    res.status(200).send(local);
-                })
-                .finally(() =>{
-                    db.disconnectDB();
-                }) 
-        })
-        .catch((error) =>{
-            console.log(error);
-            res.status(500).send('Hubo un error al agregar el producto');
-        });
+    .catch((error) => {
+        console.log(error);
+        res.status(500).send('Hubo un error al agregar el producto');
+    });
     /*
     try {
         let local = await Local.findById(req.params.id);
@@ -192,48 +169,48 @@ exports.addProducto = async (req, res) => {
 exports.deleteProducto = async (req, res) => {
     db.connectDB();
     await Local.findById({
-        _id : req.params.idLoc
+        _id: req.params.idLoc
     })
-        .then((local) =>{
+        .then((local) => {
             //ESTO HABRIA QUE HACERLO CON EL ID ME PARECE
-            local.productos=local.productos.filter(prod => prod.nombre!=req.params.nomProd);
+            local.productos = local.productos.filter(prod => prod.nombre != req.params.nomProd);
             Local.findByIdAndUpdate(
-                { _id: local._id }, 
+                { _id: local._id },
                 local,
                 { new: true }
             )
-                .then((local)=>{
+                .then((local) => {
                     res.status(200).send(local);
                 })
-                .finally(() =>{
+                .finally(() => {
                     db.disconnectDB();
-                }) 
+                })
         })
-        .catch((error) =>{
+        .catch((error) => {
             console.log(error);
             res.status(500).send('Hubo un error al actualizar el producto');
         })
-        /*
-    try {
-        let local = await Local.findById(req.params.idLoc);
-        if (!local) {
-            res.status(404).json({ msg: 'No existe el local' });
-        };
-        var producto = local.productos.find(obj => {
-            return obj.nombre == req.params.nomProd
-        })
-        if (!producto) {
-            res.status(404).json({ msg: 'No existe el producto' });
-        }
-        var indice = local.productos.indexOf(producto);
-        local.productos.splice(indice, 1);
-        unlink(path.resolve('./public' + producto.imagePath));
-        await Local.findOneAndUpdate({ _id: req.params.idLoc }, local, { new: true })
-            .then(res.status(200).json("Eliminado"))
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
-    }*/
+    /*
+try {
+    let local = await Local.findById(req.params.idLoc);
+    if (!local) {
+        res.status(404).json({ msg: 'No existe el local' });
+    };
+    var producto = local.productos.find(obj => {
+        return obj.nombre == req.params.nomProd
+    })
+    if (!producto) {
+        res.status(404).json({ msg: 'No existe el producto' });
+    }
+    var indice = local.productos.indexOf(producto);
+    local.productos.splice(indice, 1);
+    unlink(path.resolve('./public' + producto.imagePath));
+    await Local.findOneAndUpdate({ _id: req.params.idLoc }, local, { new: true })
+        .then(res.status(200).json("Eliminado"))
+} catch (error) {
+    console.log(error);
+    res.status(500).send('Hubo un error');
+}*/
 };
 
 exports.listProducto = async (req, res) => {
@@ -241,15 +218,15 @@ exports.listProducto = async (req, res) => {
     await Local.findById({
         _id: req.params.id
     })
-        .then((local) =>{
-            
+        .then((local) => {
+
             res.send(local.productos);
         })
-        .catch((error) =>{
+        .catch((error) => {
             console.error(error);
             res.status(500).send('Hubo un error al recuperar los productos');
         })
-        .finally(() =>{
+        .finally(() => {
             db.disconnectDB();
         })
     /*
@@ -269,33 +246,33 @@ exports.listProducto = async (req, res) => {
 exports.obtenerProducto = async (req, res) => {
     db.connectDB();
     await Local.findById({
-        _id :req.params.idLoc
+        _id: req.params.idLoc
     })
-        .then((local) =>{
-            res.json(local.productos.find(prod => prod._id== req.params.idPro))
+        .then((local) => {
+            res.json(local.productos.find(prod => prod._id == req.params.idPro))
         })
-        .catch((error) =>{
+        .catch((error) => {
             console.error(error);
             res.status(500).send('Hubo un error al obtener el producto');
         })
-        .finally(() =>{
+        .finally(() => {
             db.disconnectDB();
         })
-        /*
-    try {
-        let local = await Local.findById(req.params.idLoc);
-        if (!local) {
-            res.status(404).json({ msg: 'No existe el local' });
-        };
-        var producto = local.productos.find(obj => {
-            return obj._id == req.params.idPro
-        })
-        res.json(producto);
-        console.log('Ok');
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
-    }*/
+    /*
+try {
+    let local = await Local.findById(req.params.idLoc);
+    if (!local) {
+        res.status(404).json({ msg: 'No existe el local' });
+    };
+    var producto = local.productos.find(obj => {
+        return obj._id == req.params.idPro
+    })
+    res.json(producto);
+    console.log('Ok');
+} catch (error) {
+    console.log(error);
+    res.status(500).send('Hubo un error');
+}*/
 };
 
 exports.editProducto = async (req, res) => {
@@ -303,9 +280,9 @@ exports.editProducto = async (req, res) => {
     await Local.findById({
         _id: req.params.idLoc,
     })
-        .then((local) =>{
+        .then((local) => {
             //FALTA ESTO DE LA IMAGEN
-            let newProduct= new Producto(req.body);
+            let newProduct = new Producto(req.body);
             //newProduct.imagePath+= req.file.filename
             //const imagePath = '/uploads/' + req.file.filename;
             //producto.imagePath = imagePath;
@@ -313,17 +290,17 @@ exports.editProducto = async (req, res) => {
             local.productos = local.productos.filter(prod => prod.nombre != req.params.nomProd)
             local.productos.push(newProduct);
             Local.findByIdAndUpdate(
-                { _id: local._id }, 
+                { _id: local._id },
                 local
             )
-                .then((local)=>{
+                .then((local) => {
                     res.status(200).send(local);
                 })
-                .finally(() =>{
+                .finally(() => {
                     db.disconnectDB();
                 })
         })
-        .catch((error) =>{
+        .catch((error) => {
             console.log(error);
             res.status(500).send('Hubo un error al agregar el producto');
         })
@@ -359,17 +336,17 @@ exports.editProducto = async (req, res) => {
 exports.findLocalesByName = async (req, res) => {
     db.connectDB();
     await Local.find({ name: { $regex: req.params.name, $options: 'i' } })
-        .then((locales) =>{
+        .then((locales) => {
             res.json(locales);
         })
-        .catch((error) =>{
+        .catch((error) => {
             console.error(error);
             res.status(500).send('Hubo un error');
         })
-        .finally(() =>{
+        .finally(() => {
             db.disconnectDB();
         })
-        
+
     /*
     try {
         let nom = req.params.name;

@@ -1,18 +1,18 @@
 const { Router } = require('express');
 const router = Router();
 const usuarioController = require('../controlers/userController');
-const verifyToken= require('../JWT/jwt');
+const verifyToken= require('../Token/jwt');
 
 //Rutas Usuario
-router.get('/listUsers', usuarioController.listUsuario);
-//router.get('/list-usuario', verifyToken, usuarioController.listUsuario);
-router.get('/getUser/:id/', usuarioController.getUsuario);
-router.post('/registerUser', usuarioController.addUsuario);
-router.post('/login', usuarioController.signIn);
+router.get('/getUsers',verifyToken,usuarioController.getUsers);
+router.get('/getUser/:idUser',verifyToken, usuarioController.getUser); //FALTA DESARROLLAR
+router.post('/registerUser',verifyToken, usuarioController.addUser); //FALTA DESARROLLAR
+router.post('/login',verifyToken, usuarioController.login);  //FALTA DESARROLLAR
 
-router.put('/updateUser/:id/', verifyToken, usuarioController.updateUsuario);
-router.delete('/deleteUser/:id/', verifyToken, usuarioController.deleteUsuario);
+//router.get('/getUsers', verifyToken, usuarioController.listUsuario);
+// router.put('/updateUser/:idUser/', verifyToken, usuarioController.updateUser);
+// router.delete('/deleteUser/:idUser/', verifyToken, usuarioController.deleteUser);
 
-//router.get('/list-pedidos', verifyToken, usuarioController.listPedidos);
+//router.get('/getOrders/:idUser', verifyToken, usuarioController.listPedidos);
 
 module.exports = router;
