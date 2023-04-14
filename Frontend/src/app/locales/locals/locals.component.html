@@ -1,5 +1,5 @@
 <!--------------------------------ADMIN TEMPLATE-------------------------------->
-<ng-container *ngIf="userService.isAdmin(); else userTemplate">
+<ng-container *ngIf="!userService.isAdmin(); else userTemplate">
     <div class="border container-fluid">
         <table mat-table [dataSource]="dataSource" matSort #empTbSort="matSort">
             <!-- NOMBRE -->

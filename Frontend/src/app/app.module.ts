@@ -8,31 +8,20 @@ import { ToastrModule } from 'ngx-toastr';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
 import { CoreUIModule } from './core-ui/core-ui.module';
 import { HttpClientModule } from '@angular/common/http';
-import { LocalesRoutingModule } from './locales/locales-routing.module';
 import { LocalesModule } from './locales/locales.module';
 import { ComponentsModule } from './components/components.module';
+import { UserModule } from './user/user.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //----------------MODULOS----------------//
 
 //----------------COMPONENTS----------------//
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { OrdersComponent } from './orders/orders.component';
-import { UsersComponent } from './users/users.component';
 //----------------COMPONENTS----------------//
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent,
-    RegisterComponent,
-    OrdersComponent,
-    UsersComponent,
-    //Componentes de modulo aparte
-    // NavbarComponent,
-    // FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,9 +31,9 @@ import { UsersComponent } from './users/users.component';
     ReactiveFormsModule,
     ComponentsModule,
     LocalesModule,
+    UserModule,
     ToastrModule.forRoot(),
     //Routing desde aca
-    LocalesRoutingModule,
     AppRoutingModule,
     BrowserAnimationsModule
   ],
