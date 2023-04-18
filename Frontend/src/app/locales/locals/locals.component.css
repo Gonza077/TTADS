@@ -6,3 +6,7 @@
     background-image: url('https://www.mcdonalds.com.ar/images/layout/mcdonalds-logo-bg-red.png');
     background-size: cover;
 }
+
+.container-fluid{
+    background-color:darkslategray ;
+}
