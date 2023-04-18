@@ -19,9 +19,9 @@
 
 |Requerimiento|Cumple|
 |:-|-|
-|Invocar API listado||
-|Invocar API detalle||
-|Mostrar detalle al hacer click <br>en elemento del listado||
+|Invocar API listado|X|
+|Invocar API detalle|X|
+|Mostrar detalle al hacer click <br>en elemento del listado|X|
 
 ## Requerimientos Técnicos
 
