@@ -21,7 +21,7 @@ export class LocalsComponent implements OnInit {
   pageNum: number = 0;
   pageSizeOptions = [5, 10, 20]
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["name","address","options"];
+  displayedColumns: string[] = ["company","address","options"];
 
   constructor(
     private localService: LocalService,
@@ -32,7 +32,7 @@ export class LocalsComponent implements OnInit {
     this.localService.getLocalsData().subscribe(
       (data: any) => {
         this.locals = data;
-        this.dataSource =data
+        this.dataSource.data = data;
       }
     )
   }
