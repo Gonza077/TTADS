@@ -27,9 +27,9 @@
 
 |Requerimiento técnico|Cumple|
 |:-|-|
-|Framework frontend||
-|Framework CSS o preprocesador CSS||
+|Framework frontend|x|
+|Framework CSS o preprocesador CSS|X|
 |Framework backend||
 |Uso de API REST o GraphQL||
 |ORM/ODM||
-|Base de datos persistente||
+|Base de datos persistente|X|
