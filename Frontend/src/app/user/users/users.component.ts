@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnInit, Input } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -40,13 +40,14 @@ export class UsersComponent {
   }
 
   editUser(id: any) {
-    console.log("usuario editado")
+    //codigo aqui
+    this.toast.success("Usuario editado")
     this.getUsers();
   }
 
   deleteUser(id: any) {
     //codigo aqui
-    console.log("usuario eliminado")
+    this.toast.error("Usuario eliminado")
     this.getUsers();
   }
 
@@ -57,8 +58,14 @@ export class UsersComponent {
   }
 
   unblockUser(id: any){
+    //codigo aqui
     this.toast.success("usuario desbloqueado");
     this.getUsers();
+  }
+
+  applyFilter(event :Event){
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   //-------------------------------PAGINADOR-------------------------------

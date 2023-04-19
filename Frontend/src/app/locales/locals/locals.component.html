@@ -6,66 +6,80 @@
                 <mat-card-title>
                     <h2>Listado de locales</h2>
                 </mat-card-title>
+                <span style="flex: 1 1 auto;"></span>
+                <mat-form-field>
+                    <mat-label>Filtrar</mat-label>
+                    <input matInput (keyup)="applyFilter($event)">
+                </mat-form-field>
             </mat-card-header>
             <mat-card-content>
                 <table mat-table [dataSource]="dataSource" matSort #empTbSort="matSort">
-                    <!-- NOMBRE --> 
+                    <!-- NOMBRE -->
                     <ng-container matColumnDef="company">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <h2 class="pt-2">Nombre</h2> </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <h2 class="pt-2">Nombre</h2>
+                        </th>
                         <td mat-cell *matCellDef="let local">
                             {{local.company}}
                         </td>
                     </ng-container>
                     <!-- DIRECCION -->
                     <ng-container matColumnDef="address">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <h2 class="pt-2">Direccion</h2> </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <h2 class="pt-2">Direccion</h2>
+                        </th>
                         <td mat-cell *matCellDef="let local">
                             {{local.address}}
                         </td>
                     </ng-container>
                     <!-- DESCRIPCION -->
                     <ng-container matColumnDef="description">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <h2 class="pt-2">Descripcion</h2> </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <h2 class="pt-2">Descripcion</h2>
+                        </th>
                         <td mat-cell *matCellDef="let local">
                             {{local.description}}
                         </td>
                     </ng-container>
                     <!-- PRODUCTOS -->
                     <ng-container matColumnDef="products">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <h2 class="pt-2">Productos</h2> </th>
-                        <td mat-cell *matCellDef="let local">
-                            <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="openProducts(local)">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            <h2 class="pt-2">Productos</h2>
+                        </th>
+                        <td mat-cell *matCellDef="let local" class="pl-5">
+                            <button mat-mini-fab color="primary" (click)="openProducts(local)">
                                 <mat-icon>menu</mat-icon>
                             </button>
                         </td>
                     </ng-container>
                     <!-- OPCIONES -->
                     <ng-container matColumnDef="options">
-                        <th mat-header-cell *matHeaderCellDef> <h2 class="pt-2">Opciones</h2> </th>
+                        <th mat-header-cell *matHeaderCellDef>
+                            <h2 class="pt-2">Opciones</h2>
+                        </th>
                         <td mat-cell *matCellDef="let local">
-                            <button  mat-mini-fab color="accent" (click)="editLocal(local)">
+                            <button mat-mini-fab color="accent" (click)="editLocal(local)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-mini-fab color="warn" class="p-1" (click)="deleteLocal(local.id)">
+                            <button mat-mini-fab color="warn" (click)="deleteLocal(local.id)">
                                 <mat-icon>delete</mat-icon>
-                            </button>           
+                            </button>
                         </td>
                     </ng-container>
-                
+
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table> 
+                </table>
             </mat-card-content>
             <mat-card-actions class="p-2" align="start">
-                <button mat-raised-button color="primary" (click)="createLocal()"  aria-label="Agergar local">Agregar local</button>
+                <button mat-raised-button color="primary" (click)="createLocal()" >Agregar local </button>
             </mat-card-actions>
             <mat-card-actions align="end">
                 <mat-paginator 
-                    #paginator  
+                    #paginator 
                     [pageSize]="pageSize" 
                     [pageSizeOptions]="pageSizeOptions"
-                    (page)="handlePage($event)" 
-                    showFirstLastButtons>
+                    (page)="handlePage($event)" showFirstLastButtons>
                 </mat-paginator>
             </mat-card-actions>
         </mat-card>
@@ -77,17 +91,10 @@
 <ng-template #userTemplate>
     <div class="row container-fluid">
         <div class="col" *ngFor="let local of locals">
-            <app-card 
-                [title]="local.company" 
-                [subtitle]="local.address" 
-                [description]="local.description"
+            <app-card [title]="local.company" [subtitle]="local.address" [description]="local.description"
                 routerLink="/local/{{local.company}}">
             </app-card>
         </div>
     </div>
 </ng-template>
 <!--------------------------------USER TEMPLATE-------------------------------->
-
-
-
-

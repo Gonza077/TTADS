@@ -61,6 +61,11 @@ export class LocalsComponent implements OnInit {
     console.log("Local creado con exito");
   }
 
+  applyFilter(event :Event){
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   //-------------------------------PAGINADOR-------------------------------
   @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild('empTbSort') empTbSort !: MatSort;
