@@ -14,22 +14,22 @@ export class LocalsComponent implements OnInit {
 
   @Input()
   pageSize!: number;
-  
-  locals!:any[];
+
+  locals!: any[];
 
   lenght!: number;
   pageNum: number = 0;
   pageSizeOptions = [5, 10, 20]
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["company","address","options"];
+  displayedColumns: string[] = ["company", "address","description", "products", "options"];
 
   constructor(
     private localService: LocalService,
-    public userService:UserService
-  ) {}
- 
-  getLocals(){
-    this.localService.getLocalsData().subscribe(
+    public userService: UserService
+  ) { }
+
+  getLocals() {
+    this.localService.getLocals().subscribe(
       (data: any) => {
         this.locals = data;
         this.dataSource.data = data;
@@ -42,29 +42,38 @@ export class LocalsComponent implements OnInit {
     this.getLocals();
   }
 
-  editLocal(id: any) {
-    console.log("local editado")
+  editLocal(local: any) {
+    console.log(local)
     this.getLocals();
   }
 
-  deleteLocal(id: any) {
+  deleteLocal(local: any) {
     console.log("local eliminado")
     this.getLocals();
   }
 
-    //-------------------------------PAGINADOR-------------------------------
-    @ViewChild('paginator') paginator !: MatPaginator;
-    @ViewChild('empTbSort') empTbSort !: MatSort;
-    ngAfterViewInit() {
-      //Esto para pasarle el dato del paginador
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.empTbSort;
-    }
-  
-    handlePage(e: PageEvent) {
-      this.pageNum = e.pageIndex + 1;
-      this.pageSize = e.pageSize;
-    }
-    //-------------------------------PAGINADOR-------------------------------
+  openProducts(local:any) {
+    console.log(local.products)
+    console.log("productos desplegados");
+  }
+
+  createLocal() {
+    console.log("Local creado con exito");
+  }
+
+  //-------------------------------PAGINADOR-------------------------------
+  @ViewChild('paginator') paginator !: MatPaginator;
+  @ViewChild('empTbSort') empTbSort !: MatSort;
+  ngAfterViewInit() {
+    //Esto para pasarle el dato del paginador
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.empTbSort;
+  }
+
+  handlePage(e: PageEvent) {
+    this.pageNum = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+  }
+  //-------------------------------PAGINADOR-------------------------------
 }
 

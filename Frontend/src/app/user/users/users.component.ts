@@ -2,6 +2,7 @@ import { Component, ViewChild, AfterViewInit, OnInit, Input } from '@angular/cor
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -19,10 +20,11 @@ export class UsersComponent {
   pageNum: number = 0;
   pageSizeOptions = [5, 10, 20]
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["name","address","gender","age","email", "options"];
+  displayedColumns: string[] = ["name","address","gender","age","email","status","options"];
 
   constructor(
     private userService: UserService,
+    private toast: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -31,10 +33,6 @@ export class UsersComponent {
   }
 
   getUsers() {
-    // this.userService.getUsers().subscribe(
-    //   (data: any) => {
-    //     this.dataSource.data = data;
-    // })
     this.userService.getUsers().subscribe(
       (data: any) => {
         this.dataSource.data = data;
@@ -47,7 +45,19 @@ export class UsersComponent {
   }
 
   deleteUser(id: any) {
+    //codigo aqui
     console.log("usuario eliminado")
+    this.getUsers();
+  }
+
+  blockUser(id: any){ 
+    //codigo aqui
+    this.toast.error("usuario bloqueado");
+    this.getUsers();
+  }
+
+  unblockUser(id: any){
+    this.toast.success("usuario desbloqueado");
     this.getUsers();
   }
 
