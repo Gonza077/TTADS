@@ -9,7 +9,8 @@ import { RegisterComponent } from './register/register.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './profile/profile.component';
-import { UserItemComponent } from './user-item/user-item.component';
+import { UserEditComponent } from './user-edit/user-edit.component';
+import { UserDeleteComponent } from './user-delete/user-delete.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { UserItemComponent } from './user-item/user-item.component';
     RegisterComponent,
     OrdersComponent,
     ProfileComponent,
-    UserItemComponent
+    UserEditComponent,
+    UserDeleteComponent,
   ],
   imports: [
     CommonModule,

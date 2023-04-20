@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserItemComponent } from './user-item.component';
+import { LocalEditComponent } from './local-edit.component';
 
-describe('UserItemComponent', () => {
-  let component: UserItemComponent;
-  let fixture: ComponentFixture<UserItemComponent>;
+describe('LocalEditComponent', () => {
+  let component: LocalEditComponent;
+  let fixture: ComponentFixture<LocalEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserItemComponent ]
+      declarations: [ LocalEditComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UserItemComponent);
+    fixture = TestBed.createComponent(LocalEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

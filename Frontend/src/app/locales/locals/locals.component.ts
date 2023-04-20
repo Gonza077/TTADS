@@ -4,9 +4,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { LocalService } from 'src/app/services/local/local.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { LocalItemComponent } from '../local-item/local-item.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductsComponent } from '../products/products.component';
+import { LocalDeleteComponent } from '../local-delete/local-delete.component';
+import { LocalEditComponent } from '../local-edit/local-edit.component';
+import { ToasterService } from '@coreui/angular';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-locals',
@@ -32,7 +35,8 @@ export class LocalsComponent implements OnInit {
   constructor(
     private localService: LocalService,
     public userService: UserService,
-    private dialog: MatDialog
+    private toast : ToastrService,
+    private dialog : MatDialog
   ) { }
 
   getLocals() {
@@ -57,30 +61,31 @@ export class LocalsComponent implements OnInit {
   }
 
   editLocal(local: any) {
-    const dialogRef = this.dialog.open(LocalItemComponent);
+    const dialogRef = this.dialog.open(LocalEditComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        //ACA IRIA EL SERVICIO DE EDITAR EL LOCAL
+        this.toast.success("Local editado");
       }
-      console.log(`Local editado => Dialog result: ${result }`);
+      console.log(`Dialog result: ${result }`);
     });
     this.getLocals();
   }
 
   deleteLocal(local: any) {
-    const dialogRef = this.dialog.open(LocalItemComponent);
+    const dialogRef = this.dialog.open(LocalDeleteComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        //ACA IRIA EL SERVICIO DE EDITAR EL LOCAL
-      }
-      console.log(`Local eliminado => Dialog result: ${result }`);
+        this.toast.error("Local eliminado");
+      } 
+      console.log(`Dialog result: ${result}`);  
     });
     this.getLocals();
   }
 
   openProducts(local:any) {
-    const dialogRef = this.dialog.open(ProductsComponent);
-    console.log(local.products)
+    const dialogRef = this.dialog.open(ProductsComponent,{
+      data : local.products
+    });
   }
 
   createLocal() {

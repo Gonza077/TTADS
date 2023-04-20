@@ -8,13 +8,17 @@ import { ProductItemComponent } from './product-item/product-item.component';
 import { CoreUIModule } from '../core-ui/core-ui.module';
 import { LocalItemComponent } from './local-item/local-item.component';
 import { ComponentsModule } from '../components/components.module';
+import { LocalEditComponent } from './local-edit/local-edit.component';
+import { LocalDeleteComponent } from './local-delete/local-delete.component';
 
 @NgModule({
   declarations: [
     LocalsComponent,
     ProductsComponent,
     ProductItemComponent,
-    LocalItemComponent
+    LocalItemComponent,
+    LocalEditComponent,
+    LocalDeleteComponent
   ],
   imports: [
     CommonModule,

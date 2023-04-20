@@ -5,7 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user/user.service';
-import { UserItemComponent } from '../user-item/user-item.component';
+import { UserDeleteComponent } from '../user-delete/user-delete.component';
+import { UserEditComponent } from '../user-edit/user-edit.component';
 
 @Component({
   selector: 'app-users',
@@ -34,7 +35,7 @@ export class UsersComponent {
   }
 
   editUser(id: any) {
-    const dialogRef = this.dialog.open(UserItemComponent);
+    const dialogRef = this.dialog.open(UserEditComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
         this.toast.success("Usuario editado")
@@ -45,7 +46,7 @@ export class UsersComponent {
   }
 
   deleteUser(id: any) {
-    const dialogRef = this.dialog.open(UserItemComponent);
+    const dialogRef = this.dialog.open(UserDeleteComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
         //codigo aca
@@ -70,7 +71,7 @@ export class UsersComponent {
 
   //-------------------------------TABLE-------------------------------
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["name","address","email","gender","age","status","options"];
+  displayedColumns: string[] = ["name","address","email","status","options"];
   filterColumns: string[]= ["name","address" ,"email"];
   filterValue:any;
 
