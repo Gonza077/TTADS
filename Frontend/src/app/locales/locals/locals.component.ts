@@ -4,6 +4,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { LocalService } from 'src/app/services/local/local.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { LocalItemComponent } from '../local-item/local-item.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ProductsComponent } from '../products/products.component';
 
 @Component({
   selector: 'app-locals',
@@ -21,40 +24,63 @@ export class LocalsComponent implements OnInit {
   pageNum: number = 0;
   pageSizeOptions = [5, 10, 20]
   dataSource!: MatTableDataSource<any>;
+
   displayedColumns: string[] = ["company", "address","description", "products", "options"];
+  filterColumns: string[]= ["company", "address"];
+  filterValue:any;
 
   constructor(
     private localService: LocalService,
-    public userService: UserService
+    public userService: UserService,
+    private dialog: MatDialog
   ) { }
 
   getLocals() {
     this.localService.getLocals().subscribe(
       (data: any) => {
-        this.locals = data;
-        this.dataSource.data = data;
+        this.locals= data;
+        this.dataSource.data = this.locals;
       }
     )
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource();
+    this.changeFilters();
     this.getLocals();
   }
 
+  changeFilters(){
+    this.dataSource = new MatTableDataSource();
+    this.dataSource.filterPredicate = function(data : any, filter: string): boolean {
+      return data.company.toLowerCase().includes(filter) || data.address.toLowerCase().includes(filter) ;
+    };
+  }
+
   editLocal(local: any) {
-    console.log(local)
+    const dialogRef = this.dialog.open(LocalItemComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        //ACA IRIA EL SERVICIO DE EDITAR EL LOCAL
+      }
+      console.log(`Local editado => Dialog result: ${result }`);
+    });
     this.getLocals();
   }
 
   deleteLocal(local: any) {
-    console.log("local eliminado")
+    const dialogRef = this.dialog.open(LocalItemComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        //ACA IRIA EL SERVICIO DE EDITAR EL LOCAL
+      }
+      console.log(`Local eliminado => Dialog result: ${result }`);
+    });
     this.getLocals();
   }
 
   openProducts(local:any) {
+    const dialogRef = this.dialog.open(ProductsComponent);
     console.log(local.products)
-    console.log("productos desplegados");
   }
 
   createLocal() {
@@ -62,8 +88,8 @@ export class LocalsComponent implements OnInit {
   }
 
   applyFilter(event :Event){
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = this.filterValue.trim().toLowerCase();
   }
 
   //-------------------------------PAGINADOR-------------------------------

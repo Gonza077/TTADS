@@ -1,9 +1,11 @@
 import { Component, ViewChild, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user/user.service';
+import { UserItemComponent } from '../user-item/user-item.component';
 
 @Component({
   selector: 'app-users',
@@ -13,23 +15,15 @@ import { UserService } from 'src/app/services/user/user.service';
 
 export class UsersComponent {
 
-  @Input()
-  pageSize!: number;
-
-  lenght!: number;
-  pageNum: number = 0;
-  pageSizeOptions = [5, 10, 20]
-  dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["name","address","gender","age","email","status","options"];
-
   constructor(
     private userService: UserService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource();
     this.getUsers();
+    this.changeFilters();
   }
 
   getUsers() {
@@ -40,14 +34,25 @@ export class UsersComponent {
   }
 
   editUser(id: any) {
-    //codigo aqui
-    this.toast.success("Usuario editado")
+    const dialogRef = this.dialog.open(UserItemComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.toast.success("Usuario editado")
+      }
+      console.log(`Local editado => Dialog result: ${result }`);
+    });
     this.getUsers();
   }
 
   deleteUser(id: any) {
-    //codigo aqui
-    this.toast.error("Usuario eliminado")
+    const dialogRef = this.dialog.open(UserItemComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        //codigo aca
+        this.toast.error("Usuario eliminado");
+      }
+      console.log(`Local eliminado => Dialog result: ${result }`);
+    }); 
     this.getUsers();
   }
 
@@ -63,12 +68,31 @@ export class UsersComponent {
     this.getUsers();
   }
 
-  applyFilter(event :Event){
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  //-------------------------------TABLE-------------------------------
+  dataSource!: MatTableDataSource<any>;
+  displayedColumns: string[] = ["name","address","email","gender","age","status","options"];
+  filterColumns: string[]= ["name","address" ,"email"];
+  filterValue:any;
+
+  changeFilters(){
+    this.dataSource = new MatTableDataSource();
+    this.dataSource.filterPredicate = function (data : any, filter: string): boolean {
+      return data.name.toLowerCase().includes(filter) || data.address.toLowerCase().includes(filter) || data.email.toLowerCase().includes(filter) ;
+    };
   }
 
+  applyFilter(event :Event){
+    this.filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = this.filterValue.trim().toLowerCase();
+  }
+   //-------------------------------TABLE-------------------------------
+
   //-------------------------------PAGINADOR-------------------------------
+  pageSize!: number;
+  lenght!: number;
+  pageNum: number = 0;
+  pageSizeOptions = [5, 10, 20]
+
   @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild('empTbSort') empTbSort !: MatSort;
   ngAfterViewInit() {
