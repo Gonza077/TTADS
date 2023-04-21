@@ -74,14 +74,14 @@ export class UsersComponent {
 
   //-------------------------------TABLE-------------------------------
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["name","address","email","options"];
-  filterColumns: string[]= ["name","address" ,"email"];
+  displayedColumns: string[] = ["name","address","email","phone","options"];
+  filterColumns: string[]= ["name","address" ,"email","phone"];
   filterValue:any;
 
   changeFilters(){
     this.dataSource = new MatTableDataSource();
     this.dataSource.filterPredicate = function (data : any, filter: string): boolean {
-      return data.name.toLowerCase().includes(filter) || data.address.toLowerCase().includes(filter) || data.email.toLowerCase().includes(filter) ;
+      return data.name.toLowerCase().includes(filter) || data.address.toLowerCase().includes(filter) || data.email.toLowerCase().includes(filter)|| data.phone.toLowerCase().includes(filter) ;
     };
   }
 

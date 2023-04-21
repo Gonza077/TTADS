@@ -10,18 +10,21 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UserEditComponent {
 
+  hide=true;
+  
   constructor(
     @Inject(MAT_DIALOG_DATA) public user: any,
     private toast :ToastrService
-  ){ }
+  ){ console.log(this.user.isActive)}
 
   userForm = new FormGroup({    
     name: new FormControl(this.user.name , Validators.required),
     password: new FormControl(this.user.password , Validators.required),
     address: new FormControl(this.user.address , ),
     gender: new FormControl(this.user.gender ,),
-    registered:new FormControl({value:this.user.registered,disabled:true}, ),
-    hideRequiredControl: new FormControl(this.user.isActive , ),
+    age: new FormControl(this.user.age , ),
+    phone:new FormControl(this.user.phone ,),
+    isActive: new FormControl(this.user.isActive , ),
   });
 
   editUser(){

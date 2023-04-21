@@ -1,45 +1,58 @@
-<div class="container-fluid" style="width: 75vw;">
+<div class="container-fluid" style="width: 50vw;">
   <h2 mat-dialog-title>Editar Usuario</h2>
   <form [formGroup]="userForm" (ngSubmit)="editUser()">
     <mat-dialog-content>
 
       <!---------------- NOMBRE ---------------->
-      <mat-form-field class="col example-full-width ">
+      <mat-form-field class="col">
         <mat-label>Nombre</mat-label>
         <input matInput formControlName="name">
       </mat-form-field>
       <!---------------- NOMBRE ---------------->
 
       <!---------------- CONTRASEÑA ---------------->
-      <mat-form-field class="col example-full-width ">
-        <mat-label>Contraseña</mat-label>
-        <input matInput type="password" formControlName="password">
+      <mat-form-field appearance="fill" class="col">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+        <button mat-icon-button matSuffix (click)="hide=!hide">
+          <mat-icon> {{hide ? 'visibility_off' : 'visibility'}} </mat-icon>
+        </button>
       </mat-form-field>
       <!---------------- CONTRASEÑA ---------------->
 
       <!---------------- DIRECCION ---------------->
-      <mat-form-field class="col example-full-width ">
+      <mat-form-field class="col">
         <mat-label>Direccion</mat-label>
         <input matInput formControlName="address">
       </mat-form-field>
       <!---------------- DIRECCION ---------------->
 
+      <!---------------- TELEFONO ---------------->
+      <mat-form-field class="col">
+        <mat-label>Telefono</mat-label>
+        <input matInput formControlName="phone">
+      </mat-form-field>
+      <!---------------- TELEFONO ---------------->
+
       <!---------------- SEXO ---------------->
-      <mat-form-field class="col example-full-width ">
-        <mat-label>Sexo</mat-label>
-        <input matInput formControlName="gender">
+      <mat-form-field class="col">
+        <mat-select formControlName="gender">
+          <mat-option value="Hombre">Hombre</mat-option>
+          <mat-option value="Mujer">Mujer </mat-option>
+          <mat-option value="N/A">N/A</mat-option>
+        </mat-select>
       </mat-form-field>
       <!---------------- SEXO ---------------->
 
-      <!---------------- SEXO ---------------->
-      <mat-form-field class="col example-full-width ">
-        <mat-label>Registrado</mat-label>
-        <input matInput formControlName="registered">
+      <!---------------- EDAD ---------------->
+      <mat-form-field class="col">
+        <mat-label>Edad</mat-label>
+        <input matInput formControlName="age" type="number">
       </mat-form-field>
-      <!---------------- SEXO ---------------->
+      <!---------------- EDAD ---------------->
 
       <!---------------- ESTADO ---------------->
-      <mat-checkbox formControlName="hideRequiredControl">Activo</mat-checkbox>
+        <mat-checkbox formControlName="isActive">Activo</mat-checkbox>
       <!---------------- ESTADO ---------------->
 
     </mat-dialog-content>
