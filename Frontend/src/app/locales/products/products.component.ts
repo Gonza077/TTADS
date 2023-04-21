@@ -12,15 +12,15 @@ import { MatSort } from '@angular/material/sort';
 })
 export class ProductsComponent implements OnInit{
 
-  products!: any[];
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any ){
+    @Inject(MAT_DIALOG_DATA) public local: any ){
+      this.changeFilters();
+      this.dataSource.data=this.local.products;
   }
 
   ngOnInit(): void {
-    this.changeFilters();
-    this.dataSource.data=this.data;
-    console.log(this.data)
+
   }
 
   createProduct(){
@@ -28,6 +28,7 @@ export class ProductsComponent implements OnInit{
   }
 
   editProduct(product:any){
+    console.log(product.name);
 
   }
 
@@ -37,7 +38,7 @@ export class ProductsComponent implements OnInit{
 
   //-------------------------------TABLE-------------------------------
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["name","description"];
+  displayedColumns: string[] = ["name","description","options"];
   filterColumns: string[]= ["name"];
   filterValue:any;
 
@@ -58,7 +59,7 @@ export class ProductsComponent implements OnInit{
   pageSize!: number;
   lenght!: number;
   pageNum: number = 0;
-  pageSizeOptions = [5, 10, 20]
+  pageSizeOptions = [5, 10]
 
   @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild('empTbSort') empTbSort !: MatSort;

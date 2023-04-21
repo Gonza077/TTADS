@@ -72,7 +72,9 @@ export class LocalsComponent implements OnInit {
   }
 
   deleteLocal(local: any) {
-    const dialogRef = this.dialog.open(LocalDeleteComponent);
+    const dialogRef = this.dialog.open(LocalDeleteComponent,{
+      data:local
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result){
         this.toast.error("Local eliminado");
@@ -84,7 +86,7 @@ export class LocalsComponent implements OnInit {
 
   openProducts(local:any) {
     const dialogRef = this.dialog.open(ProductsComponent,{
-      data : local.products
+      data : local,
     });
   }
 

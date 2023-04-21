@@ -34,8 +34,11 @@ export class UsersComponent {
     })
   }
 
-  editUser(id: any) {
-    const dialogRef = this.dialog.open(UserEditComponent);
+  editUser(user: any) {
+    console.log(user);
+    const dialogRef = this.dialog.open(UserEditComponent,{
+      data:user,
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result){
         this.toast.success("Usuario editado")
@@ -71,7 +74,7 @@ export class UsersComponent {
 
   //-------------------------------TABLE-------------------------------
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["name","address","email","status","options"];
+  displayedColumns: string[] = ["name","address","email","options"];
   filterColumns: string[]= ["name","address" ,"email"];
   filterValue:any;
 
