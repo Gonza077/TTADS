@@ -48,8 +48,10 @@ export class UsersComponent {
     this.getUsers();
   }
 
-  deleteUser(id: any) {
-    const dialogRef = this.dialog.open(UserDeleteComponent);
+  deleteUser(user: any) {
+    const dialogRef = this.dialog.open(UserDeleteComponent,{
+      data:user,
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result){
         //codigo aca
