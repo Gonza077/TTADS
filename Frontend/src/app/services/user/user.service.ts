@@ -35,4 +35,10 @@ export class UserService {
     return this.http.post(this.urlBackend, valueForm)
   }
 
+  editUser(valueForm:any){
+    console.log(valueForm);
+    console.log(this.urlBackend+"updateUser")
+    return this.http.patch(this.urlBackend+"updateUser",valueForm.value).subscribe(data=> console.log(data))
+  }
+
 }

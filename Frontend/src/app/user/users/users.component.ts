@@ -35,13 +35,12 @@ export class UsersComponent {
   }
 
   editUser(user: any) {
-    console.log(user);
     const dialogRef = this.dialog.open(UserEditComponent,{
       data:user,
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        this.toast.success("Usuario editado")
+        this.toast.success("Usuario editado");
       }
       console.log(`Local editado => Dialog result: ${result }`);
     });

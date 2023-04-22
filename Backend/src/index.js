@@ -20,7 +20,6 @@ app.set('port', process.env.PORT || 4000);
 
 //-----------MIDDLEWARES-----------//
 app.use(cors());
-
 app.use(express.json());
 
 const storage = multer.diskStorage({

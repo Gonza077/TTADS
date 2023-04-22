@@ -7,6 +7,7 @@
       <mat-form-field class="col">
         <mat-label>Nombre</mat-label>
         <input matInput formControlName="name">
+        <mat-icon matSuffix>person</mat-icon>
       </mat-form-field>
       <!---------------- NOMBRE ---------------->
 
@@ -20,10 +21,19 @@
       </mat-form-field>
       <!---------------- CONTRASEÑA ---------------->
 
+      <!---------------- EMAIL ---------------->
+      <mat-form-field class="col">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+      <!---------------- EMAIL ---------------->
+
       <!---------------- DIRECCION ---------------->
       <mat-form-field class="col">
         <mat-label>Direccion</mat-label>
         <input matInput formControlName="address">
+        <mat-icon matSuffix>home</mat-icon>
       </mat-form-field>
       <!---------------- DIRECCION ---------------->
 
@@ -31,6 +41,7 @@
       <mat-form-field class="col">
         <mat-label>Telefono</mat-label>
         <input matInput formControlName="phone">
+        <mat-icon matSuffix>phone</mat-icon>
       </mat-form-field>
       <!---------------- TELEFONO ---------------->
 
@@ -48,6 +59,7 @@
       <mat-form-field class="col">
         <mat-label>Edad</mat-label>
         <input matInput formControlName="age" type="number">
+        <mat-icon matSuffix>cake</mat-icon>
       </mat-form-field>
       <!---------------- EDAD ---------------->
 
@@ -58,7 +70,7 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-raised-button mat-dialog-close color="warn">Cerrar</button>
-      <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial color="primary">Editar</button>
+      <button mat-raised-button [mat-dialog-close]="true" type="submit" cdkFocusInitial color="primary">Editar</button>
     </mat-dialog-actions>
   </form>
 </div>

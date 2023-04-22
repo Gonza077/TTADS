@@ -90,7 +90,8 @@ exports.deleteUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     db.connectDB();
     //ESTO FALTA TESTEAR SI FUNCIONA
-    Usuario.findOneAndUpdate( { _id: req.body.idUser }, req.body, { new: true })
+    console.log(req);
+    Usuario.findOneAndUpdate( { _id: req.body.id }, req.body, { new: true })
     .then(()=>{   
         res.status(200).json("Usuario Editado");
     })
