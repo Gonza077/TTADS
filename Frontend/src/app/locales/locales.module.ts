@@ -10,6 +10,8 @@ import { LocalItemComponent } from './local-item/local-item.component';
 import { ComponentsModule } from '../components/components.module';
 import { LocalEditComponent } from './local-edit/local-edit.component';
 import { LocalDeleteComponent } from './local-delete/local-delete.component';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { LocalDeleteComponent } from './local-delete/local-delete.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     LocalesRoutingModule,
     AngularMaterialModule,
     CoreUIModule,

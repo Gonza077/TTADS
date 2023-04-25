@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProductsComponent } from '../products/products.component';
 import { LocalDeleteComponent } from '../local-delete/local-delete.component';
 import { LocalEditComponent } from '../local-edit/local-edit.component';
-import { ToasterService } from '@coreui/angular';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -18,75 +17,57 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LocalsComponent implements OnInit {
 
-  @Input()
-  pageSize!: number;
-
   locals!: any[];
-
-  lenght!: number;
-  pageNum: number = 0;
-  pageSizeOptions = [5, 10, 20]
-  dataSource!: MatTableDataSource<any>;
-
-  displayedColumns: string[] = ["company", "address","description", "products", "options"];
-  filterColumns: string[]= ["company", "address"];
-  filterValue:any;
 
   constructor(
     private localService: LocalService,
     public userService: UserService,
-    private toast : ToastrService,
-    private dialog : MatDialog
-  ) { }
-
-  getLocals() {
-    this.localService.getLocals().subscribe(
-      (data: any) => {
-        this.locals= data;
-        this.dataSource.data = this.locals;
-      }
-    )
-  }
+    private toast: ToastrService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.changeFilters();
     this.getLocals();
   }
 
-  changeFilters(){
-    this.dataSource = new MatTableDataSource();
-    this.dataSource.filterPredicate = function(data : any, filter: string): boolean {
-      return data.company.toLowerCase().includes(filter) || data.address.toLowerCase().includes(filter) ;
-    };
-  }
-
-  editLocal(local: any) {
-    const dialogRef = this.dialog.open(LocalEditComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      if (result){
-        this.toast.success("Local editado");
+  getLocals() {
+    this.localService.getLocals().subscribe(
+      (data: any) => {
+        this.locals = data;
+        this.dataSource.data = this.locals;
       }
-      console.log(`Dialog result: ${result }`);
+    )
+  }
+  editLocal(local: any) {
+    const dialogRef = this.dialog.open(LocalEditComponent,{
+      data:local,
     });
-    this.getLocals();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.toast.success("Local editado");
+        this.getLocals();
+      }
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   deleteLocal(local: any) {
-    const dialogRef = this.dialog.open(LocalDeleteComponent,{
-      data:local
+    const dialogRef = this.dialog.open(LocalDeleteComponent, {
+      data: local
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result){
+      if (result) {
         this.toast.error("Local eliminado");
-      } 
-      console.log(`Dialog result: ${result}`);  
+        this.getLocals();
+      }
+      console.log(`Dialog result: ${result}`);
     });
-    this.getLocals();
   }
 
-  openProducts(local:any) {
-    const dialogRef = this.dialog.open(ProductsComponent,{
-      data : local,
+  openProducts(local: any) {
+    const dialogRef = this.dialog.open(ProductsComponent, {
+      data: local,
     });
   }
 
@@ -94,12 +75,31 @@ export class LocalsComponent implements OnInit {
     console.log("Local creado con exito");
   }
 
-  applyFilter(event :Event){
+
+  //-------------------------------TABLE-------------------------------
+  displayedColumns: string[] = ["company", "address", "description", "products", "options"];
+  filterColumns: string[] = ["company", "address"];
+  filterValue: any;
+  dataSource!: MatTableDataSource<any>;
+
+  applyFilter(event: Event) {
     this.filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = this.filterValue.trim().toLowerCase();
   }
 
+  changeFilters() {
+    this.dataSource = new MatTableDataSource();
+    this.dataSource.filterPredicate = function (data: any, filter: string): boolean {
+      return data.company.toLowerCase().includes(filter) || data.address.toLowerCase().includes(filter);
+    };
+  }
+
   //-------------------------------PAGINADOR-------------------------------
+  pageSize!: number;
+  lenght!: number;
+  pageNum: number = 0;
+  pageSizeOptions = [5, 10, 20]
+
   @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild('empTbSort') empTbSort !: MatSort;
   ngAfterViewInit() {

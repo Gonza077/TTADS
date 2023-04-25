@@ -1,14 +1,12 @@
 const Usuario = require('../Schema/userSchema');
-const jwt = require('jsonwebtoken');
+//const jwt = require('jsonwebtoken');
 const db = require('./DB');
-const mongoose = require('mongoose');
 
 exports.addUser = async (req, res) => {
     db.connectDB();
     new Usuario(req.body).save()
-    .then((user)=>{
-        const token = jwt.sign({ _id: user._id }, 'secretKey');
-        return res.status(200).send({ token });           
+    .then(( user )=>{
+        return res.status(200).json("Usuario creado con exito");           
     })
     .catch(error =>{
         console.log(error)
@@ -21,11 +19,13 @@ exports.addUser = async (req, res) => {
 
 exports.login = async (req, res) => {
     db.connectDB();
-    Usuario.findOne( {userName: req.body.userName, password: req.body.password} )
+    Usuario.findOne({
+        userName: req.body.userName, 
+        password: req.body.password
+    })
     .then( (user) =>{
         if(user){
-            const token = jwt.sign({ _id: user._id }, 'secretKey');
-            return res.status(200).json({token});  
+            return res.status(200).json("Usuario logeado con exito");  
         }
         return res.status(401).send("El usuario y/o contraseña ingresados no son correctos");
     })
@@ -57,7 +57,9 @@ exports.getUser = async (req, res) => {
     db.connectDB();
     let userId = req.params.idUser;
     //const payload = jwt.verify(req.params.idUser, 'secretKey');
-    Usuario.findOne( { _id : userId} )
+    Usuario.findOne({ 
+        _id : userId
+    })
     .then((user) => {        
         if(user){
             return res.status(200).json(user);
@@ -65,7 +67,6 @@ exports.getUser = async (req, res) => {
         res.status(400).json("El usuario buscado no existe");
     })
     .catch((error) =>{
-        console.log(error);
         res.status(500).send('Hubo un error al buscar un usuario');
     })
     .finally(() =>{
@@ -80,7 +81,6 @@ exports.deleteUser = async (req, res) => {
         res.status(200).json('Usuario eliminado con exito.');
     })
     .catch((error) =>{
-        console.log(error);
         res.status(500).send('Hubo un error al eliminar el usuario');
     })
     .finally(() =>{
@@ -88,10 +88,12 @@ exports.deleteUser = async (req, res) => {
     })
 }
 
-
 exports.updateUser = async (req, res) => {
     db.connectDB();
-    Usuario.findOneAndUpdate({ _id: req.body.id }, req.body)
+    Usuario.findOneAndUpdate(
+        { _id: req.body.id }, 
+        req.body
+    )
     .then(()=>{ 
         res.status(200).json("Usuario editado");
     })

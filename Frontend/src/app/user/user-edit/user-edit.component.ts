@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -14,8 +13,7 @@ export class UserEditComponent {
   hide = true;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public user: any,
-    private toast: ToastrService,
+    @Inject(MAT_DIALOG_DATA) private user: any,
     private userService: UserService
   ) { }
 
