@@ -41,10 +41,9 @@ export class UsersComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result){
         this.toast.success("Usuario editado");
+        this.getUsers();
       }
-      console.log(`Local editado => Dialog result: ${result }`);
-    });
-    this.getUsers();
+    });   
   }
 
   deleteUser(user: any) {
@@ -53,12 +52,10 @@ export class UsersComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        //codigo aca
         this.toast.error("Usuario eliminado");
+        this.getUsers();
       }
-      console.log(`Local eliminado => Dialog result: ${result }`);
     }); 
-    this.getUsers();
   }
 
   blockUser(id: any){ 

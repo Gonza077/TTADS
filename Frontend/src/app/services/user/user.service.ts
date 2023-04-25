@@ -35,8 +35,11 @@ export class UserService {
   }
 
   editUser(valueForm: any) {
-    console.log(valueForm.value)
-    return this.http.put(this.urlBackend + "updateUser", valueForm.value)
+    return this.http.put(this.urlBackend + "updateUser", valueForm.value).subscribe();
+  }
+
+  deleteUser(userID: any) {
+    return this.http.delete(this.urlBackend + "deleteUser/"+userID).subscribe();
   }
 
 }

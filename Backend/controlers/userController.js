@@ -21,7 +21,7 @@ exports.addUser = async (req, res) => {
 
 exports.login = async (req, res) => {
     db.connectDB();
-    Usuario.findOne( {usuario: req.body.usuario, contrasena: req.body.contrasena} )
+    Usuario.findOne( {userName: req.body.userName, password: req.body.password} )
     .then( (user) =>{
         if(user){
             const token = jwt.sign({ _id: user._id }, 'secretKey');
@@ -77,7 +77,7 @@ exports.deleteUser = async (req, res) => {
     db.connectDB();
     Usuario.findOneAndRemove( { _id : req.params.idUser} )
     .then(() =>{
-        res.status(200).send('Usuario eliminado con exito.');
+        res.status(200).json('Usuario eliminado con exito.');
     })
     .catch((error) =>{
         console.log(error);
@@ -91,9 +91,9 @@ exports.deleteUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     db.connectDB();
-    Usuario.findOneAndUpdate({ _id: req.body._id }, req.body)
-    .then(()=>{   
-        res.status(200).send("Usuario editado con exito");
+    Usuario.findOneAndUpdate({ _id: req.body.id }, req.body)
+    .then(()=>{ 
+        res.status(200).json("Usuario editado");
     })
     .catch((error) =>{
         console.log(error);
