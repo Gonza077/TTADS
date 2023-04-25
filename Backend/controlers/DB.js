@@ -5,7 +5,7 @@ exports.connectDB = async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex:true,
-        useFindAndModify:true
+        useFindAndModify:false
     })
     .then(() => {
         //console.log('DB Connected');

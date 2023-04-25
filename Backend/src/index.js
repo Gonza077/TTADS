@@ -2,25 +2,21 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
-
-//-----------------------------ROUTES-----------------------------//
 const localRoutes = require('../routes/localRoutes');
 const userRoutes = require('../routes/userRoutes');
-//-----------------------------ROUTES-----------------------------//
 
 //-----------------------------SERVER-----------------------------//
 const app = express();
 
+
+//-----------SETTINGS & MIDDLEWARES-----------//
+app.set('port', process.env.PORT || 4000);
+app.use(cors());
+app.use(express.json());
+
 //-----------IMPORTING ROUTES-----------//
 app.use('/locals/', localRoutes);
 app.use('/users/', userRoutes);
-
-//-----------SETTINGS-----------//
-app.set('port', process.env.PORT || 4000);
-
-//-----------MIDDLEWARES-----------//
-app.use(cors());
-app.use(express.json());
 
 const storage = multer.diskStorage({
   destination: path.join(__dirname, '../public/uploads'),

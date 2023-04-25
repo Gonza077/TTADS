@@ -32,6 +32,6 @@ export class UserEditComponent {
   });
 
   editUser() {
-    this.userService.editUser(this.userForm)
+    this.userService.editUser(this.userForm).subscribe(data => console.log(data))
   }
 }

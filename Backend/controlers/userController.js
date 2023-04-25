@@ -1,6 +1,7 @@
 const Usuario = require('../Schema/userSchema');
 const jwt = require('jsonwebtoken');
 const db = require('./DB');
+const mongoose = require('mongoose');
 
 exports.addUser = async (req, res) => {
     db.connectDB();
@@ -87,13 +88,12 @@ exports.deleteUser = async (req, res) => {
     })
 }
 
+
 exports.updateUser = async (req, res) => {
     db.connectDB();
-    //ESTO FALTA TESTEAR SI FUNCIONA
-    console.log(req);
-    Usuario.findOneAndUpdate( { _id: req.body.id }, req.body, { new: true })
+    Usuario.findOneAndUpdate({ _id: req.body._id }, req.body)
     .then(()=>{   
-        res.status(200).json("Usuario Editado");
+        res.status(200).send("Usuario editado con exito");
     })
     .catch((error) =>{
         console.log(error);

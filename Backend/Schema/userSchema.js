@@ -2,14 +2,16 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 var UsuarioSchema = new mongoose.Schema({
-    usuario: { type: String | undefined },
-    fechaCreacion: { type: Date, default: Date.now },
-    contrasena: { type: String },
-    nombreApellido: { type: String | undefined },
-    direccion: { type: String | undefined },
-    telefono: { type: String },
+    userName: { type: String | undefined },
+    password: { type: String | undefined },
+    gender: { type: String | undefined },
+    name: { type: String | undefined },
     email: { type: String | undefined },
-    pedidos: {}
+    phone: { type: String | undefined },
+    address: { type: String | undefined },
+    registered: { type: Date, default: Date.now },
+    age: { type: Number | undefined },
+    isActive : { type: Boolean | undefined }
 });
 
 var Usuario = mongoose.model('users', UsuarioSchema);

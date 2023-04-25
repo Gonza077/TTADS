@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,6 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 
 export class UserService {
 
-  //urlJSONServer: string = "http://localhost:3000/users/";
   urlBackend: string = "http://localhost:4000/users/";
 
   constructor(
@@ -15,30 +14,29 @@ export class UserService {
   }
 
   //Esto deberia ser con alguna propiedad seteada del usuario
-  isLoggin(){
+  isLoggin() {
     return true;
   }
 
-  isAdmin(){
+  isAdmin() {
     return true;
   }
 
-  getUsers(){
-    return this.http.get(this.urlBackend+"getUsers");
+  getUsers() {
+    return this.http.get(this.urlBackend + "getUsers");
   }
 
   getUser(userName: string) {
-    return this.http.get(this.urlBackend+userName);
+    return this.http.get(this.urlBackend + userName);
   }
 
   RegisterUser(valueForm: any) {
     return this.http.post(this.urlBackend, valueForm)
   }
 
-  editUser(valueForm:any){
-    console.log(valueForm);
-    console.log(this.urlBackend+"updateUser")
-    return this.http.patch(this.urlBackend+"updateUser",valueForm.value).subscribe(data=> console.log(data))
+  editUser(valueForm: any) {
+    console.log(valueForm.value)
+    return this.http.put(this.urlBackend + "updateUser", valueForm.value)
   }
 
 }
