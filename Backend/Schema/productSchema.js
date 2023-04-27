@@ -1,13 +1,12 @@
 var mongoose = require('mongoose');
 
 var ProductoSchema = new mongoose.Schema({
-  nombre: { type: String },
-  descripcion: { type: String },
-  categoria: { type: String },
-  subcategoria: { type: String },
-  precio: { type: Number },
-  fechaCreacion: { type: Date, default: Date.now },
-  imagePath: { type: String, default: '/uploads/' }
+  name: { type: String | undefined },
+  description: { type: String | undefined },
+  category: { type: String | undefined },
+  subCategory: { type: String | undefined },
+  price: { type: Number | undefined },
+  imagePath: { type: String | undefined }
 });
 
 var Producto = mongoose.model('products', ProductoSchema);

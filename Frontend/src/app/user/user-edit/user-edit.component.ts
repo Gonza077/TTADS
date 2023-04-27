@@ -30,6 +30,8 @@ export class UserEditComponent {
   });
 
   editUser() {
-    this.userService.editUser(this.userForm);
+    if (this.userForm.valid){
+      this.userService.editUser(this.userForm);
+    }
   }
 }

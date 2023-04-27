@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,15 +25,16 @@ export class LocalsComponent implements OnInit {
     public userService: UserService,
     private toast: ToastrService,
     private dialog: MatDialog
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.changeFilters();
     this.getLocals();
+    this.ngAfterViewInit();
   }
 
   getLocals() {
-    this.localService.getLocals().subscribe(
+     this.localService.getLocals().subscribe(
       (data: any) => {
         this.locals = data;
         this.dataSource.data = data;
@@ -49,7 +50,7 @@ export class LocalsComponent implements OnInit {
       if (result.value){
         this.localService.editLocal(result.localValue)
         this.toast.success("Local editado"); 
-        this.getLocals();                  
+        this.getLocals();
       } 
     });
   }
@@ -61,8 +62,8 @@ export class LocalsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result.value) {
         this.localService.deleteLocal(result.localID)
-        this.toast.error("Local eliminado");
-        this.getLocals(); 
+        this.toast.error("Local eliminado");   
+        this.getLocals();
       }
     });
   }
@@ -77,10 +78,9 @@ export class LocalsComponent implements OnInit {
     const dialogRef = this.dialog.open(LocalAddComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result.value) {
-        console.log(result.localValue)
         this.localService.addLocal(result.localValue)
         this.toast.success("Local agregado con exito");
-        this.getLocals(); 
+        this.getLocals();
       }
     });
   }

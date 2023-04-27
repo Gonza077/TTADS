@@ -19,7 +19,6 @@ export class LocalEditComponent {
     id: new FormControl(this.local._id),
     name: new FormControl(this.local.name, Validators.required),
     email: new FormControl(this.local.email, [Validators.required, Validators.email]),
-    password: new FormControl(this.local.password, Validators.required),
     address: new FormControl(this.local.address, Validators.required),
     description: new FormControl(this.local.description, Validators.required),
     phone: new FormControl(this.local.phone, Validators.required),
@@ -40,10 +39,12 @@ export class LocalEditComponent {
 
   confirmEdit() {
     // closing itself and sending data to parent component
-    this.dialogRef.close({
-      value: true,
-      localValue: this.localForm.value,
-    })
+    if (this.localForm.valid){
+      this.dialogRef.close({
+        value: true,
+        localValue: this.localForm.value,
+      })
+    }
   }
 
   //TODO ESTO FALTA DESARROLLAR

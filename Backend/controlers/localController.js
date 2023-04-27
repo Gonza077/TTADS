@@ -6,7 +6,6 @@ exports.addLocal = async (req, res) => {
     db.connectDB();
     new Local(req.body).save()
         .then((local) => {
-            //local.imagePath += req.file.filename;
             res.send(local);
         })
         .catch((error) => {
@@ -20,8 +19,9 @@ exports.addLocal = async (req, res) => {
 
 exports.getLocals = async (req, res) => {
     db.connectDB();
-    Local.find()
+    Local.find({ })
         .then((locales) => {
+            console.log(locales);
             res.send(locales)
         })
         .catch((error) => {
@@ -84,21 +84,57 @@ exports.deleteLocal = async (req, res) => {
         });
 }
 
+exports.getProducts = async (req, res) => {
+    db.connectDB();
+    await Local.findById(
+        req.params.idLocal
+    )
+        .then(local => {
+            res.status(200).json(local.products)
+        })
+        .catch(() => {
+            res.status(500).send('Hubo un error al recuperar los productos');
+        })
+        .finally(() => {
+            db.disconnectDB();
+        })
+}
 
-
-//-----------------------FALTA PROBAR TODO ESTO-------------------------//
+//---------------------------ESTE METODO TENGO DUDAS---------------------------//
+exports.getProduct = async (req, res) => {
+    db.connectDB();
+    await Local.find(
+        {
+            //_id: req.params.idLocal,
+            products: { $elemMatch: { name: req.params.nameProduct } },
+        },
+        {
+            _id: 1, name: 1, products: 1,
+        }
+    )
+        .then(data => {
+            res.status(200).json(data);
+        })
+        .catch((err) => {
+            res.json();
+        })
+        .finally(() => {
+            db.disconnectDB();
+        })
+}
+//---------------------------ESTE METODO TENGO DUDAS---------------------------//
 
 exports.addProducto = async (req, res) => {
     db.connectDB();
-    await Local.findById({
+    await Local.find({
         _id: req.params.id,
     })
         .then((local) => {
-            let producto = new Producto(req.body)
+            //let producto = new Producto(req.body)
             //FALTA ESTO DE LA IMAGEN
             //const imagePath = '/uploads/' + req.file.filename;
             //producto.imagePath = imagePath;
-            local.productos.push(producto);
+            local.productos.push(req.body);
             Local.findByIdAndUpdate(
                 { _id: local._id },
                 local
@@ -115,6 +151,8 @@ exports.addProducto = async (req, res) => {
             res.status(500).send('Hubo un error al agregar el producto');
         });
 };
+
+//-----------------------FALTA PROBAR TODO ESTO-------------------------//
 
 exports.deleteProducto = async (req, res) => {
     db.connectDB();

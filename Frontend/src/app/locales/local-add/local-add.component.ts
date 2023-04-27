@@ -27,7 +27,7 @@ export class LocalAddComponent {
     address: new FormControl('', Validators.required),
     description: new FormControl('', ),
     phone: new FormControl('',Validators.required),
-    isActive: new FormControl(false,),
+    isActive: new FormControl(false),
   });
 
   cancelCreate(){

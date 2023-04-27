@@ -11,7 +11,14 @@ var UsuarioSchema = new mongoose.Schema({
     address: { type: String | undefined },
     registered: { type: Date, default: Date.now },
     age: { type: Number | undefined },
-    isActive : { type: Boolean | undefined }
+    isActive: { type: Boolean | undefined },
+    //NO IMPLEMENTADO
+    // orders: {
+    //     date: { type: Date, default: Date.now },
+    //     //ACA DEBERIAN IR LOS PRODUCTOS DEL LOCAL SELECCIONADO SOLAMENTE
+    //     local: { type: Object },
+    //     price: { type: Number | undefined },
+    // }
 });
 
 var Usuario = mongoose.model('users', UsuarioSchema);

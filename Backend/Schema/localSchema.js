@@ -1,23 +1,24 @@
 var mongoose = require('mongoose');
 
 var LocalSchema = new mongoose.Schema({
-    name: { type: String },
-    email: { type: String, default: " " },
-    phone: { type: Number, default: " " },
-    address: { type: String },
+    name: { type: String , required: true, unique: true},
+    email: { type: String, required: true},
+    phone: { type: Number, default: null},
+    address: { type: String, required: true},
     isActive: { type: Boolean, default: false },
     registered: { type: Date, default: Date.now },
-    products: [{
-        name: { type: String | undefined },
-        description: { type: String | undefined },
-        category: { type: String | undefined },
-        subCategory: { type: String | undefined },
-        price: { type: Number | undefined },
-        imagePath: { type: String , default: '/uploads/' }
-    }],
-    tags: [
-        { value: String | undefined },
-    ],
+    products:[{}],
+    // products: [{
+    //     name:  String | undefined,
+    //     description:  String | undefined ,
+    //     category: String | undefined ,
+    //     subCategory: String | undefined ,
+    //     price: Number | undefined ,
+    // }],
+    tags: [],
+    // tags: [{ 
+    //     value:  { type: String , required: true}
+    // }],      
 });
 
 var Local = mongoose.model('locals', LocalSchema);
