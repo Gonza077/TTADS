@@ -4,7 +4,7 @@ const localController = require('../controlers/localController');
 const verifyToken = require('../Token/jwt');
 
 //WORKING
-router.get('/getLocals', verifyToken, localController.listLocal);
+router.get('/getLocals', verifyToken, localController.getLocals);
 router.get('/getLocal/:idLocal',verifyToken, localController.getLocal);
 router.get('/getLocal/:nameLocal',verifyToken, localController.findLocalesByName);
 router.delete('/deleteLocal/:id', verifyToken, localController.deleteLocal);
@@ -15,8 +15,8 @@ router.put('/updateLocal', verifyToken, localController.updateLocal);
 router.post('/addLocal', verifyToken, localController.addLocal);
 
 
-//Rutas Productos
-router.get('/listProducts/:id/', verifyToken, localController.listProducto);
+//------ELIMINAR-----//
+
 router.get('/getProductsByName/:id/:name', localController.findProductosByName);
 router.get('/getProduct/:idLoc/:idPro', localController.obtenerProducto);
 router.post('/addProduct/:id/', verifyToken, localController.addProducto);

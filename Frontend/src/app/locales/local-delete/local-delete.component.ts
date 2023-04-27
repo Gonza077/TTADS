@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LocalService } from 'src/app/services/local/local.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-local-delete',
@@ -11,10 +10,21 @@ export class LocalDeleteComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public local: any,
-    private localService :LocalService
+    private dialogRef: MatDialogRef<LocalDeleteComponent>
   ){}
 
-  deleteLocal(localID : Number){
-    this.localService.deleteLocal(localID);
+  cancelEdit() {
+    this.dialogRef.close({
+      value: false
+    })
   }
+
+  confirmDelete(localID : Number) {
+    // closing itself and sending data to parent component
+    this.dialogRef.close({
+      value: true,
+      localID: localID,
+    })
+  }
+
 }

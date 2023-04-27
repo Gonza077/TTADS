@@ -1,12 +1,12 @@
 <div class="container-fluid" style="width: 50vw;">
   <h2 mat-dialog-title>Editar local</h2>
-  <form [formGroup]="localForm" (ngSubmit)="editLocal()">
+  <form [formGroup]="localForm">
     <mat-dialog-content>
 
       <!---------------- NOMBRE ---------------->
       <mat-form-field class="col">
         <mat-label>Nombre</mat-label>
-        <input matInput formControlName="company">
+        <input matInput formControlName="name">
         <mat-icon matSuffix>location_city</mat-icon>
       </mat-form-field>
       <!---------------- NOMBRE ---------------->
@@ -52,9 +52,9 @@
                         (removed)="removeTag(tag)"
                         [editable]="true"
                         (edited)="editTag(tag, $event)"
-                        [aria-description]="'press enter to edit ' + tag.name">
-            {{tag.name}}
-            <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+                        [aria-description]="'press enter to edit ' + tag.value">
+            {{tag.value}}
+            <button matChipRemove [attr.aria-label]="'remove ' + tag.value">
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip-row>
@@ -75,8 +75,8 @@
 
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-raised-button mat-dialog-close color="warn">Cerrar</button>
-      <button mat-raised-button [mat-dialog-close]="true" type="submit" cdkFocusInitial color="primary">Editar</button>
+      <button mat-raised-button mat-dialog-close color="warn" (click)="cancelEdit()">Cerrar</button>
+      <button mat-raised-button (click)="confirmEdit()" cdkFocusInitial color="primary">Editar</button>
     </mat-dialog-actions>
   </form>
 </div>

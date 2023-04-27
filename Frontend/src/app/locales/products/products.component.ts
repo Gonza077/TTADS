@@ -29,7 +29,6 @@ export class ProductsComponent implements OnInit{
 
   editProduct(product:any){
     console.log(product.name);
-
   }
 
   deleteProduct(product:any){

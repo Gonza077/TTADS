@@ -58,18 +58,6 @@ export class UsersComponent {
     }); 
   }
 
-  blockUser(id: any){ 
-    //codigo aqui
-    this.toast.error("usuario bloqueado");
-    this.getUsers();
-  }
-
-  unblockUser(id: any){
-    //codigo aqui
-    this.toast.success("usuario desbloqueado");
-    this.getUsers();
-  }
-
   //-------------------------------TABLE-------------------------------
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = ["name","address","email","phone","options"];

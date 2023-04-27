@@ -33,7 +33,6 @@ import { HomeComponent } from './home/home.component';
     LocalesModule,
     UserModule,
     ToastrModule.forRoot(),
-    //Routing desde aca
     AppRoutingModule,
     BrowserAnimationsModule
   ],

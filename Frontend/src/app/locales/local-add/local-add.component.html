@@ -1,0 +1,72 @@
+<div class="container-fluid" style="width: 50vw;">
+    <h2 mat-dialog-title>Editar local</h2>
+    <form [formGroup]="localForm">
+      <mat-dialog-content>
+  
+        <!---------------- NOMBRE ---------------->
+        <mat-form-field class="col">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name">
+          <mat-icon matSuffix>location_city</mat-icon>
+        </mat-form-field>
+        <!---------------- NOMBRE ---------------->
+  
+        <!---------------- EMAIL ---------------->
+        <mat-form-field class="col">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email">
+          <mat-icon matSuffix>alternate_email</mat-icon>
+        </mat-form-field>
+        <!---------------- EMAIL ---------------->
+  
+        <!---------------- TELEFONO ---------------->
+        <mat-form-field class="col">
+          <mat-label>Telefono</mat-label>
+          <input matInput formControlName="phone">
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+        <!---------------- TELEFONO ---------------->
+  
+        <!---------------- DIRECCION ---------------->
+        <mat-form-field class="col">
+          <mat-label>Direccion</mat-label>
+          <input matInput formControlName="address">
+          <mat-icon matSuffix>home</mat-icon>
+        </mat-form-field>
+        <!---------------- DIRECCION ---------------->
+  
+        <!---------------- DESCRIPCION ---------------->
+        <mat-form-field class="col">
+          <mat-label>Descripcion</mat-label>
+          <input matInput formControlName="description">
+          <mat-icon matSuffix>description</mat-icon>
+        </mat-form-field>
+        <!---------------- DESCRIPCION ---------------->
+  
+        <!---------------- TAGS ---------------->
+        <mat-form-field class="col">
+          <mat-label>Tags</mat-label>
+          <mat-icon matSuffix>code</mat-icon>
+          <mat-chip-grid #chipGrid aria-label="Enter tags">
+            <input placeholder="New tag..."
+                   [matChipInputFor]="chipGrid"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="addTag($event)"/>
+          </mat-chip-grid>
+        </mat-form-field>
+        <!---------------- TAGS ---------------->
+  
+        <!---------------- ESTADO ---------------->
+        <mat-checkbox formControlName="isActive">
+          <mat-label>Activo</mat-label>
+        </mat-checkbox>
+        <!---------------- ESTADO ---------------->
+  
+      </mat-dialog-content>
+      <mat-dialog-actions align="end">
+        <button mat-raised-button mat-dialog-close color="warn" (click)="cancelCreate()">Cerrar</button>
+        <button mat-raised-button  type="submit" cdkFocusInitial color="primary" (click)="confirmCreate()">Editar</button>
+      </mat-dialog-actions>
+    </form>
+  </div>

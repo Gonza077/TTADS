@@ -6,21 +6,21 @@ import { LocalsComponent } from './locals/locals.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductItemComponent } from './product-item/product-item.component';
 import { CoreUIModule } from '../core-ui/core-ui.module';
-import { LocalItemComponent } from './local-item/local-item.component';
 import { ComponentsModule } from '../components/components.module';
 import { LocalEditComponent } from './local-edit/local-edit.component';
 import { LocalDeleteComponent } from './local-delete/local-delete.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LocalAddComponent } from './local-add/local-add.component';
 
 @NgModule({
   declarations: [
     LocalsComponent,
     ProductsComponent,
     ProductItemComponent,
-    LocalItemComponent,
     LocalEditComponent,
-    LocalDeleteComponent
+    LocalDeleteComponent,
+    LocalAddComponent
   ],
   imports: [
     CommonModule,

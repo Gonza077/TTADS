@@ -1,6 +1,6 @@
 const db = require('./DB');
 const Local = require('../Schema/localSchema');
-const Producto = require('../Schema/productoSchema');
+const Producto = require('../Schema/productSchema');
 
 exports.addLocal = async (req, res) => {
     db.connectDB();
@@ -18,7 +18,7 @@ exports.addLocal = async (req, res) => {
         })
 };
 
-exports.listLocal = async (req, res) => {
+exports.getLocals = async (req, res) => {
     db.connectDB();
     Local.find()
         .then((locales) => {
@@ -70,7 +70,7 @@ exports.updateLocal = async (req, res) => {
 
 exports.deleteLocal = async (req, res) => {
     db.connectDB();
-    Local.findOneAndRemove({
+    await Local.findOneAndRemove({
         _id: req.params.id
     })
         .then(() => {
@@ -87,22 +87,6 @@ exports.deleteLocal = async (req, res) => {
 
 
 //-----------------------FALTA PROBAR TODO ESTO-------------------------//
-exports.selectLocal = async (req, res) => {
-    db.connectDB();
-    Local.findById(
-        { _id: req.params.id }
-    )
-        .then((local) => {
-            res.send(local);
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500).send('Hubo un error al seleccionar el local');
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-};
 
 exports.addProducto = async (req, res) => {
     db.connectDB();
@@ -158,23 +142,6 @@ exports.deleteProducto = async (req, res) => {
         })
 };
 
-exports.listProducto = async (req, res) => {
-    db.connectDB();
-    await Local.findById({
-        _id: req.params.id
-    })
-        .then((local) => {
-
-            res.send(local.productos);
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500).send('Hubo un error al recuperar los productos');
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-};
 
 exports.obtenerProducto = async (req, res) => {
     db.connectDB();

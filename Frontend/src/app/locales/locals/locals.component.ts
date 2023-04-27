@@ -9,6 +9,7 @@ import { ProductsComponent } from '../products/products.component';
 import { LocalDeleteComponent } from '../local-delete/local-delete.component';
 import { LocalEditComponent } from '../local-edit/local-edit.component';
 import { ToastrService } from 'ngx-toastr';
+import { LocalAddComponent } from '../local-add/local-add.component';
 
 @Component({
   selector: 'app-locals',
@@ -24,7 +25,7 @@ export class LocalsComponent implements OnInit {
     public userService: UserService,
     private toast: ToastrService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.changeFilters();
@@ -35,50 +36,58 @@ export class LocalsComponent implements OnInit {
     this.localService.getLocals().subscribe(
       (data: any) => {
         this.locals = data;
-        this.dataSource.data = this.locals;
+        this.dataSource.data = data;
       }
     )
   }
+
   editLocal(local: any) {
-    const dialogRef = this.dialog.open(LocalEditComponent,{
-      data:local,
+    const dialogRef = this.dialog.open(LocalEditComponent, {
+      data: local,
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.toast.success("Local editado");
-        this.getLocals();
-      }
-      console.log(`Dialog result: ${result}`);
+      if (result.value){
+        this.localService.editLocal(result.localValue)
+        this.toast.success("Local editado"); 
+        this.getLocals();                  
+      } 
     });
   }
 
   deleteLocal(local: any) {
-    const dialogRef = this.dialog.open(LocalDeleteComponent, {
-      data: local
+    const dialogRef = this.dialog.open(LocalDeleteComponent,{
+       data: local 
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result.value) {
+        this.localService.deleteLocal(result.localID)
         this.toast.error("Local eliminado");
-        this.getLocals();
+        this.getLocals(); 
       }
-      console.log(`Dialog result: ${result}`);
     });
   }
 
   openProducts(local: any) {
-    const dialogRef = this.dialog.open(ProductsComponent, {
-      data: local,
+    const dialogRef = this.dialog.open(ProductsComponent, { 
+      data: local 
     });
   }
 
   createLocal() {
-    console.log("Local creado con exito");
+    const dialogRef = this.dialog.open(LocalAddComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.value) {
+        console.log(result.localValue)
+        this.localService.addLocal(result.localValue)
+        this.toast.success("Local agregado con exito");
+        this.getLocals(); 
+      }
+    });
   }
 
-
   //-------------------------------TABLE-------------------------------
-  displayedColumns: string[] = ["company", "address", "description", "products", "options"];
-  filterColumns: string[] = ["company", "address"];
+  displayedColumns: string[] = ["name", "address", "phone", "description", "products", "options"];
+  filterColumns: string[] = ["name", "address", "phone"];
   filterValue: any;
   dataSource!: MatTableDataSource<any>;
 
@@ -90,7 +99,7 @@ export class LocalsComponent implements OnInit {
   changeFilters() {
     this.dataSource = new MatTableDataSource();
     this.dataSource.filterPredicate = function (data: any, filter: string): boolean {
-      return data.company.toLowerCase().includes(filter) || data.address.toLowerCase().includes(filter);
+      return data.name.toLowerCase().includes(filter) || data.address.toLowerCase().includes(filter) || data.phone.toString().includes(filter);
     };
   }
 
