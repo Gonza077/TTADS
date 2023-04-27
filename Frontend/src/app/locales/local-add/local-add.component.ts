@@ -2,9 +2,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
-import { MatDialogRef } from '@angular/material/dialog';
 import { LocalService } from 'src/app/services/local/local.service';
-import { LocalsComponent } from '../locals/locals.component';
 import { ToastrService } from 'ngx-toastr';
 
 export interface Fruit {
@@ -39,7 +37,7 @@ export class LocalAddComponent {
       this.toast.success("Local agregado con exito")
     }
   }
-  
+
   //------------------------------CHIP------------------------------//
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
