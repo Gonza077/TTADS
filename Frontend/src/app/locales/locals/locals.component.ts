@@ -30,7 +30,6 @@ export class LocalsComponent implements OnInit {
   ngOnInit(): void {
     this.changeFilters();
     this.getLocals();
-    this.ngAfterViewInit();
   }
 
   getLocals() {
@@ -47,9 +46,7 @@ export class LocalsComponent implements OnInit {
       data: local,
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.value){
-        this.localService.editLocal(result.localValue)
-        this.toast.success("Local editado"); 
+      if (result){
         this.getLocals();
       } 
     });
@@ -60,9 +57,16 @@ export class LocalsComponent implements OnInit {
        data: local 
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.value) {
-        this.localService.deleteLocal(result.localID)
-        this.toast.error("Local eliminado");   
+      if (result) {
+        this.getLocals();
+      }
+    });
+  }
+
+  createLocal() {
+    const dialogRef = this.dialog.open(LocalAddComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
         this.getLocals();
       }
     });
@@ -71,17 +75,6 @@ export class LocalsComponent implements OnInit {
   openProducts(local: any) {
     const dialogRef = this.dialog.open(ProductsComponent, { 
       data: local 
-    });
-  }
-
-  createLocal() {
-    const dialogRef = this.dialog.open(LocalAddComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      if (result.value) {
-        this.localService.addLocal(result.localValue)
-        this.toast.success("Local agregado con exito");
-        this.getLocals();
-      }
     });
   }
 
@@ -99,7 +92,11 @@ export class LocalsComponent implements OnInit {
   changeFilters() {
     this.dataSource = new MatTableDataSource();
     this.dataSource.filterPredicate = function (data: any, filter: string): boolean {
-      return data.name.toLowerCase().includes(filter) || data.address.toLowerCase().includes(filter) || data.phone.toString().includes(filter);
+      return (
+        data.name.toLowerCase().includes(filter) || 
+        data.address.toLowerCase().includes(filter) || 
+        data.phone.toString().includes(filter)
+      );
     };
   }
 

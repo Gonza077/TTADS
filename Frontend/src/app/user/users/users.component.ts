@@ -40,7 +40,6 @@ export class UsersComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        this.toast.success("Usuario editado");
         this.getUsers();
       }
     });   
@@ -60,14 +59,20 @@ export class UsersComponent {
 
   //-------------------------------TABLE-------------------------------
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["name","address","email","phone","options"];
-  filterColumns: string[]= ["name","address" ,"email","phone"];
+  displayedColumns: string[] = ["name","userName","address","email","phone","options"];
+  filterColumns: string[]= ["name","userName","address" ,"email","phone"];
   filterValue:any;
 
   changeFilters(){
     this.dataSource = new MatTableDataSource();
     this.dataSource.filterPredicate = function (data : any, filter: string): boolean {
-      return data.name.toLowerCase().includes(filter) || data.address.toLowerCase().includes(filter) || data.email.toLowerCase().includes(filter)|| data.phone.toLowerCase().includes(filter) ;
+      return (
+        data.name.toLowerCase().includes(filter) || 
+        data.address.toLowerCase().includes(filter) ||
+        data.email.toLowerCase().includes(filter) ||
+        data.phone.toLowerCase().includes(filter) ||
+        data.userName.toLowerCase().includes(filter)
+      );
     };
   }
 

@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
+import { LocalService } from 'src/app/services/local/local.service';
+import { ToastrService } from 'ngx-toastr';
 
 export interface Fruit {
   name: string;
@@ -28,22 +30,14 @@ export class LocalEditComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public local: any,
-    private dialogRef: MatDialogRef<LocalEditComponent>
+    private localService : LocalService,
+    private toast : ToastrService
   ) { }
 
-  cancelEdit() {
-    this.dialogRef.close({
-      value: false
-    })
-  }
-
-  confirmEdit() {
-    // closing itself and sending data to parent component
+  editLocal() {
     if (this.localForm.valid){
-      this.dialogRef.close({
-        value: true,
-        localValue: this.localForm.value,
-      })
+      this.toast.success("Local editado con exito");
+      this.localService.editLocal(this.localForm);
     }
   }
 

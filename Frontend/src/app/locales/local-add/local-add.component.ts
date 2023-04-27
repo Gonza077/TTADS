@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LocalService } from 'src/app/services/local/local.service';
+import { LocalsComponent } from '../locals/locals.component';
+import { ToastrService } from 'ngx-toastr';
 
 export interface Fruit {
   name: string;
@@ -17,7 +19,8 @@ export interface Fruit {
 export class LocalAddComponent {
 
   constructor(
-    private dialogRef: MatDialogRef<LocalAddComponent>
+    private localService: LocalService,
+    private toast : ToastrService
   ){}
 
   localForm = new FormGroup({
@@ -30,20 +33,13 @@ export class LocalAddComponent {
     isActive: new FormControl(false),
   });
 
-  cancelCreate(){
-    this.dialogRef.close({
-      value: false
-    })
-  }
-
   confirmCreate(){
     if (this.localForm.valid){
-      this.dialogRef.close({
-        value: true,
-        localValue: this.localForm.value
-      })
+      this.localService.addLocal(this.localForm);
+      this.toast.success("Local agregado con exito")
     }
   }
+  
   //------------------------------CHIP------------------------------//
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;

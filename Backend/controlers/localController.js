@@ -19,9 +19,8 @@ exports.addLocal = async (req, res) => {
 
 exports.getLocals = async (req, res) => {
     db.connectDB();
-    Local.find({ })
+    Local.find()
         .then((locales) => {
-            console.log(locales);
             res.send(locales)
         })
         .catch((error) => {
@@ -86,41 +85,44 @@ exports.deleteLocal = async (req, res) => {
 
 exports.getProducts = async (req, res) => {
     db.connectDB();
-    await Local.findById(
-        req.params.idLocal
+    Local.findOne(
+        { _id : req.params.idLocal}, 
+        {products:1}      
     )
-        .then(local => {
-            res.status(200).json(local.products)
-        })
-        .catch(() => {
-            res.status(500).send('Hubo un error al recuperar los productos');
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
+    .then(data => {
+        res.status(200).json(data)
+    })
+    .catch(() => {
+        res.status(500).send('Hubo un error al recuperar los productos');
+    })
+    .finally(() => {
+        db.disconnectDB();
+    })
 }
 
 //---------------------------ESTE METODO TENGO DUDAS---------------------------//
 exports.getProduct = async (req, res) => {
     db.connectDB();
     await Local.find(
-        {
-            //_id: req.params.idLocal,
-            products: { $elemMatch: { name: req.params.nameProduct } },
-        },
-        {
-            _id: 1, name: 1, products: 1,
-        }
+    {
+        //_id: req.params.idLocal,
+        products: {$elemMatch: { name : req.params.nameProduct }},    
+    },
+    {   
+        _id:1,
+        name:1,
+        products:1,
+    }
     )
-        .then(data => {
-            res.status(200).json(data);
-        })
-        .catch((err) => {
-            res.json();
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
+    .then( data =>{
+        res.status(200).json(data);
+    })
+    .catch((err) => {
+        res.json();
+    })
+    .finally(() => {
+        db.disconnectDB();
+    })
 }
 //---------------------------ESTE METODO TENGO DUDAS---------------------------//
 
@@ -128,7 +130,7 @@ exports.addProducto = async (req, res) => {
     db.connectDB();
     await Local.find({
         _id: req.params.id,
-    })
+    }) 
         .then((local) => {
             //let producto = new Producto(req.body)
             //FALTA ESTO DE LA IMAGEN
@@ -256,3 +258,5 @@ exports.findProductosByName = async (req, res) => {
         res.status(500).send('Hubo un error');
     }
 };
+
+

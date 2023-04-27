@@ -21,7 +21,7 @@ export class LocalService {
   }
 
   editLocal(localForm: any) {
-    return this.http.put(this.urlBackend + "updateLocal", localForm).subscribe();
+    return this.http.put(this.urlBackend + "updateLocal", localForm.value).subscribe();
   }
 
   deleteLocal(localID: Number) {

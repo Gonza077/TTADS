@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -14,6 +15,7 @@ export class UserEditComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private user: any,
+    private toast: ToastrService,
     private userService: UserService
   ) { }
 
@@ -31,6 +33,7 @@ export class UserEditComponent {
 
   editUser() {
     if (this.userForm.valid){
+      this.toast.success("Usuario editado");
       this.userService.editUser(this.userForm);
     }
   }
