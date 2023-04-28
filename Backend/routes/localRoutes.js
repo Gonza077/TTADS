@@ -18,9 +18,10 @@ router.get('/getProducts/:idLocal', localController.getProducts);
 router.get('/getProduct/:idProduct', localController.getProduct);
 router.get('/getProductByName/:nameProduct', localController.getProductByName);
 router.post('/addProduct/:idLocal', localController.addProducto);
+router.delete('/deleteProduct/:idProduct', localController.deleteProducto);
 
 //------FALTA DESARROLLAR-----//
-router.put('/editProduct/:idLoc/:nomProd', localController.editProducto);
-router.delete('/deleteProduct/:idLoc/:nomProd', localController.deleteProducto);
+router.put('/editProduct/:idProduct', localController.editProducto);
+
 
 module.exports = router;
