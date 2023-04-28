@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class LocalService {
 
-  urlBackend: string = "http://localhost:4000/locals/"
+  urlBackend: string = "http://localhost:4000/api/v2/locals/"
 
   constructor(
     private http: HttpClient

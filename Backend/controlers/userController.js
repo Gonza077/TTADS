@@ -9,14 +9,12 @@ exports.addUser = async (req, res) => {
         return res.status(200).json(data);           
     })
     .catch(error =>{
-        console.log(error)
-        res.status(500).send("Hubo un error al agregar el usuario")
+        res.status(500).json(error)
     })
     .finally(()=>{
         db.disconnectDB()
     });
 };
-
 
 exports.getUsers = async (req, res) => {
     db.connectDB();

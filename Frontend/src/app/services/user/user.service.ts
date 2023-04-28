@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class UserService {
 
-  urlBackend: string = "http://localhost:4000/users/";
+  urlBackend: string = "http://localhost:4000/api/v2/users/";
 
   constructor(
     private http: HttpClient) {
