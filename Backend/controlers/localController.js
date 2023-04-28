@@ -191,6 +191,7 @@ exports.addProducto = async (req, res) => {
         })
 };
 
+//Esto podria ser co nel ID del local tambien
 exports.deleteProducto = async (req, res) => {
     db.connectDB();
     Local.findOneAndUpdate(
@@ -215,36 +216,38 @@ exports.deleteProducto = async (req, res) => {
             db.disconnectDB();
         })
 }
-//-----------------------FALTA PROBAR TODO ESTO-------------------------//
 
 exports.editProducto = async (req, res) => {
     db.connectDB();
     Local.findOneAndUpdate(
         {
             products: {
-                $elemMatch: { _id: mongoose.Types.ObjectId(req.body._id) }
+                $elemMatch: { _id: mongoose.Types.ObjectId(req.params.idProduct) }
             },
         },
-        req.body,
-        { new: true })
-        .then((local) => {
-            local.productos = local.productos.filter(prod => prod.nombre != req.params.nomProd)
-            local.productos.push(req.body);
-            Local.findByIdAndUpdate(
-                { _id: local._id },
-                local
-            )
-                .then((local) => {
-                    res.status(200).send(local);
-                })
-                .finally(() => {
-                    db.disconnectDB();
-                })
+        {
+            $set:
+            {
+                "products.$.name": req.body.name,
+                "products.$.description": req.body.description,
+                "products.$.category": req.body.category,
+                "products.$.price": req.body.price,
+            }
+        },
+        {new:true}
+    )
+        .then((data) => {
+            res.status(200).json(data);
         })
         .catch((error) => {
-            console.log(error);
-            res.status(500).send('Hubo un error al agregar el producto');
+            res.status(500).json(error);
+        })
+        .finally(() => {
+            db.disconnectDB();
         })
 };
+
+
+
 
 
