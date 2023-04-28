@@ -13,7 +13,7 @@ export class LocalService {
   ) { }
 
   getLocals() {
-    return this.http.get(this.urlBackend + "getLocals");
+    return this.http.get(this.urlBackend);
   }
 
   addLocal(localForm: any) {
@@ -26,5 +26,11 @@ export class LocalService {
 
   deleteLocal(localID: Number) {
     return this.http.delete(this.urlBackend + "deleteLocal/" + localID).subscribe();
+  }
+
+
+  getProducts(localID: Number){
+    console.log(this.urlBackend + "getProducts/" + localID)
+    return this.http.get(this.urlBackend + "getProducts/" + localID);
   }
 }

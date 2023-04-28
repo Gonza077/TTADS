@@ -23,7 +23,7 @@ export class UserService {
   }
 
   getUsers() {
-    return this.http.get(this.urlBackend + "getUsers");
+    return this.http.get(this.urlBackend);
   }
 
   getUser(userName: string) {

@@ -3,8 +3,8 @@ const router = Router();
 const usuarioController = require('../controlers/userController');
 
 router.get('/', usuarioController.getUsers);
-router.post('/addUser', usuarioController.addUser); //FALTA DESARROLLAR
-router.get('/getUser/:idUser', usuarioController.getUser); //FALTA DESARROLLAR
+router.post('/addUser', usuarioController.addUser);
+router.get('/getUser/:idUser', usuarioController.getUser);
 router.put('/updateUser', usuarioController.updateUser);
 router.delete('/deleteUser/:idUser/', usuarioController.deleteUser);
 //router.get('/getOrders/:idUser',, usuarioController.listPedidos);

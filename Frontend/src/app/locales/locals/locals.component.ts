@@ -95,7 +95,7 @@ export class LocalsComponent implements OnInit {
       return (
         data.name.toLowerCase().includes(filter) || 
         data.address.toLowerCase().includes(filter) || 
-        data.phone.toString().includes(filter)
+        data.phone.toLowerCase().includes(filter)
       );
     };
   }

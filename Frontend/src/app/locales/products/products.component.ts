@@ -4,6 +4,7 @@ import { Inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { LocalService } from 'src/app/services/local/local.service';
 
 @Component({
   selector: 'app-products',
@@ -14,13 +15,19 @@ export class ProductsComponent implements OnInit{
 
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public local: any ){
-      this.changeFilters();
-      this.dataSource.data=this.local.products;
+    @Inject(MAT_DIALOG_DATA) public local: any,
+    private localService :LocalService ){
+      
   }
 
   ngOnInit(): void {
-
+    this.changeFilters();
+    this.localService.getProducts(this.local._id).subscribe(
+      (data:any) =>{
+        console.log(data);
+        this.dataSource.data = data.products
+      }
+    )
   }
 
   createProduct(){
@@ -32,7 +39,7 @@ export class ProductsComponent implements OnInit{
   }
 
   deleteProduct(product:any){
-
+    console.log("Producto eliminado");
   }
 
   //-------------------------------TABLE-------------------------------

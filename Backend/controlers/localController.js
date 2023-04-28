@@ -1,6 +1,7 @@
 const db = require('./DB');
 const Local = require('../Schema/localSchema');
 const mongoose = require('mongoose');
+var productSchema = require('../Schema/productSchema');
 
 //------------------------------LOCALES------------------------------//
 exports.addLocal = async (req, res) => {
@@ -10,8 +11,7 @@ exports.addLocal = async (req, res) => {
             res.send(local);
         })
         .catch((error) => {
-            console.error(error);
-            res.status(500).send('Hubo un erroral agregar el local');
+            res.status(500).json(error);
         })
         .finally(() => {
             db.disconnectDB();
@@ -106,7 +106,7 @@ exports.getProducts = async (req, res) => {
     db.connectDB();
     Local.findOne(
         { _id : req.params.idLocal}, 
-        { products:1 }      
+        { products:1 ,_id:0}      
     )
     .then(data => {
         res.status(200).json(data)
@@ -124,7 +124,7 @@ exports.getProduct = async (req, res) => {
     db.connectDB();
     await Local.find(
         {
-            products: { $elemMatch: { idProd : mongoose.Types.ObjectId(req.params.idProduct) }}, 
+            products: { $elemMatch: { _id : req.params.idProduct}}, 
         },    
         {   
             _id:1,
@@ -153,8 +153,7 @@ exports.getProductByName = async (req, res) => {
         _id:1,
         name:1,
         "products.$":1,
-    }
-    )
+    })
     .then( data =>{
         res.status(200).json(data);
     })
@@ -165,29 +164,46 @@ exports.getProductByName = async (req, res) => {
         db.disconnectDB();
     })
 }
-//---------------------------ESTE METODO TENGO DUDAS---------------------------//
 
 exports.addProducto = async (req, res) => {
     db.connectDB();
-    await Local.find({
-        _id: req.params.id,
-    }) 
-        .then((local) => {
-            local.productos.push(req.body);
-            Local.findByIdAndUpdate(
-                { _id: local._id },
-                local
-            )
-                .then((local) => {
-                    res.status(200).json(local);
-                })
-                .finally(() => {
-                    db.disconnectDB();
-                })
-        })
-        .catch((error) => {
-            res.status(500).json(error);
-        });
+    Local.updateOne(
+    {
+        _id: req.params.idLocal,
+    },
+    {
+        $addToSet: { products: new productSchema(req.body)}
+    }
+    )
+    .then((data) => {
+        res.status(200).json(data);
+    })        
+    .catch((error) => {
+        res.status(500).json(error);
+    })
+    .finally(() => {
+        db.disconnectDB();
+    })
+
+    // await Local.find({
+    //     _id: req.params.id,
+    // }) 
+    //     .then((local) => {
+    //         local.productos.push(req.body);
+    //         Local.findByIdAndUpdate(
+    //             { _id: local._id },
+    //             local
+    //         )
+    //             .then((local) => {
+    //                 res.status(200).json(local);
+    //             })
+    //             .finally(() => {
+    //                 db.disconnectDB();
+    //             })
+    //     })
+    //     .catch((error) => {
+    //         res.status(500).json(error);
+    //     });
 };
 
 //-----------------------FALTA PROBAR TODO ESTO-------------------------//
@@ -241,25 +257,6 @@ exports.editProducto = async (req, res) => {
             console.log(error);
             res.status(500).send('Hubo un error al agregar el producto');
         })
-};
-
-
-exports.findProductosByName = async (req, res) => {
-    try {
-        let local = await Local.findById(req.params.id);
-        if (!local) {
-            res.status(404).json({ msg: 'No existe el local' });
-        };
-        const filter = new RegExp(req.params.name, 'i');
-        let productos = local.productos.filter(({ nombre }) =>
-            nombre.match(filter)
-        );
-        //console.log(productos);
-        res.send(productos);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
-    }
 };
 
 

@@ -18,7 +18,7 @@ export interface Fruit {
 export class LocalEditComponent {
 
   localForm = new FormGroup({
-    id: new FormControl(this.local._id),
+    _id: new FormControl(this.local._id),
     name: new FormControl(this.local.name, Validators.required),
     email: new FormControl(this.local.email, [Validators.required, Validators.email]),
     address: new FormControl(this.local.address, Validators.required),

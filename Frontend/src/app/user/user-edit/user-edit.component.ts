@@ -20,7 +20,7 @@ export class UserEditComponent {
   ) { }
 
   userForm = new FormGroup({
-    id: new FormControl(this.user._id),
+    _id: new FormControl(this.user._id),
     name: new FormControl(this.user.name, Validators.required),
     email: new FormControl(this.user.email, [Validators.required, Validators.email]),
     password: new FormControl(this.user.password, Validators.required),

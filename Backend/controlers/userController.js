@@ -69,7 +69,7 @@ exports.deleteUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     db.connectDB();
     Usuario.findOneAndUpdate(
-        { _id: req.body.id }, 
+        { _id: req.body._id }, 
         req.body
     )
     .then(()=>{ 

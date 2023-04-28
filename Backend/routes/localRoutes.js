@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const localController = require('../controlers/localController');
 
-//router.get('/getLocals',verifyToken, localController.getLocals);
+//router.get('/getLocals',verifyToken, localController.getLocals); EJEMPLO DE JWT INCORPORADO
 
 //------------------------------LOCALS------------------------------//
 router.get('/', localController.getLocals);
@@ -15,12 +15,11 @@ router.post('/addLocal', localController.addLocal);
 
 //------------------------------PRODUCTOS------------------------------//
 router.get('/getProducts/:idLocal', localController.getProducts);
-router.get('/getProduct/:idProduct', localController.getProduct); //ESTE TIENE PROBLEMAS
+router.get('/getProduct/:idProduct', localController.getProduct);
 router.get('/getProductByName/:nameProduct', localController.getProductByName);
+router.post('/addProduct/:idLocal', localController.addProducto);
 
-
-//------ELIMINAR-----//
-router.post('/addProduct/', localController.addProducto);
+//------FALTA DESARROLLAR-----//
 router.put('/editProduct/:idLoc/:nomProd', localController.editProducto);
 router.delete('/deleteProduct/:idLoc/:nomProd', localController.deleteProducto);
 
