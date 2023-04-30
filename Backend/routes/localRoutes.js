@@ -6,8 +6,7 @@ const localController = require('../controlers/localController');
 
 //------------------------------LOCALS------------------------------//
 router.get('/', localController.getLocals);
-router.get('/getLocal/:idLocal', localController.getLocal);
-router.get('/getLocalByName/:nameLocal', localController.getLocalByName);
+router.get('/getLocal', localController.getLocal);
 router.delete('/deleteLocal/:idLocal', localController.deleteLocal);
 router.put('/updateLocal', localController.updateLocal);
 router.post('/addLocal', localController.addLocal);
@@ -15,13 +14,10 @@ router.post('/addLocal', localController.addLocal);
 
 //------------------------------PRODUCTOS------------------------------//
 router.get('/getProducts/:idLocal', localController.getProducts);
-router.get('/getProduct/:idProduct', localController.getProduct);
-router.get('/getProductByName/:nameProduct', localController.getProductByName);
+router.get('/getProduct', localController.getProduct);
 router.post('/addProduct/:idLocal', localController.addProducto);
-router.delete('/deleteProduct/:idProduct', localController.deleteProducto);
-
-//------FALTA DESARROLLAR-----//
-router.put('/editProduct/:idProduct', localController.editProducto);
+router.delete('/deleteProduct', localController.deleteProducto);
+router.put('/editProduct', localController.editProducto);
 
 
 module.exports = router;
