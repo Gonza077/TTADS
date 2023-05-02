@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class UserService {
 
-  urlBackend: string = "http://localhost:4000/api/v2/users/";
+  urlBackend: string = "http://localhost:4000/api/users/";
 
   constructor(
     private http: HttpClient) {
@@ -26,8 +26,8 @@ export class UserService {
     return this.http.get(this.urlBackend);
   }
 
-  getUser(userName: string) {
-    return this.http.get(this.urlBackend + userName);
+  getUser(user: string) {
+    return this.http.get(this.urlBackend +"getUser/"+ user);
   }
 
   RegisterUser(valueForm: any) {

@@ -24,7 +24,6 @@ export class ProductsComponent implements OnInit{
     this.changeFilters();
     this.localService.getProducts(this.local._id).subscribe(
       (data:any) =>{
-        console.log(data);
         this.dataSource.data = data.products
       }
     )

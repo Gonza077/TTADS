@@ -7,12 +7,14 @@ import { OrdersComponent } from './orders/orders.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserDeleteComponent } from './user-delete/user-delete.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
     UsersComponent,
     UserEditComponent,
     UserDeleteComponent,
+    UserProfileComponent,
     OrdersComponent,
   ],
   imports: [

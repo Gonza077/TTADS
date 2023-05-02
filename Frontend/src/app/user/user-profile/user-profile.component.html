@@ -1,0 +1,13 @@
+
+<div class="container-fluid" style="width: 50vw;">
+    <h1 mat-dialog-title>Informacion del Usuario</h1>
+    <mat-dialog-content>
+        <div *ngIf="profileJSON">
+            <pre >{{profileJSON}}</pre>
+        </div>
+    </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close color="warn">Cerrar</button>
+  </mat-dialog-actions>
+</div>
+  

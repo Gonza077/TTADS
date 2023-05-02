@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class LocalService {
 
-  urlBackend: string = "http://localhost:4000/api/v2/locals/"
+  urlBackend: string = "http://localhost:4000/api/locals/"
 
   constructor(
     private http: HttpClient
@@ -28,9 +28,7 @@ export class LocalService {
     return this.http.delete(this.urlBackend + "deleteLocal/" + localID).subscribe();
   }
 
-
   getProducts(localID: Number){
-    console.log(this.urlBackend + "getProducts/" + localID)
     return this.http.get(this.urlBackend + "getProducts/" + localID);
   }
 }

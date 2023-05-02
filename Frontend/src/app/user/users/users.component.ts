@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user/user.service';
 import { UserDeleteComponent } from '../user-delete/user-delete.component';
 import { UserEditComponent } from '../user-edit/user-edit.component';
+import { UserProfileComponent } from '../user-profile/user-profile.component';
 
 @Component({
   selector: 'app-users',
@@ -55,6 +56,12 @@ export class UsersComponent {
         this.getUsers();
       }
     }); 
+  }
+
+  seeUser(user: any){
+    const dialogRef = this.dialog.open(UserProfileComponent,{
+      data:user,
+    });
   }
 
   //-------------------------------TABLE-------------------------------

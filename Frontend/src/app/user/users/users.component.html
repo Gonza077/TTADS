@@ -69,6 +69,12 @@
                         <h2>Opciones</h2>
                     </th>
                     <td mat-cell *matCellDef="let user">
+                        <!-- <a class="m-1" mat-mini-fab color="accent" [routerLink]="['/profile']" [queryParams]="{ userID: user._id}">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </a> -->
+                        <button class="m-1" mat-mini-fab color="accent" (click)="seeUser(user._id)">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
                         <button class="m-1" mat-mini-fab color="primary" (click)="editUser(user)">
                             <mat-icon>edit</mat-icon>
                         </button>
