@@ -4,7 +4,7 @@ const db = require('./DB');
 
 exports.addUser = async (req, res) => {
     db.connectDB();
-    new Usuario(req.body).save()
+    await new Usuario(req.body).save()
         .then((data) => {
             return res.status(200).json(data);
         })
@@ -18,7 +18,7 @@ exports.addUser = async (req, res) => {
 
 exports.getUsers = async (req, res) => {
     db.connectDB();
-    Usuario.find({}, { orders: 0, registered: 0 })
+    await Usuario.find({}, { orders: 0, registered: 0 })
         .then(data => {
             res.status(200).json(data);
         })
@@ -32,7 +32,7 @@ exports.getUsers = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     db.connectDB();
-    Usuario.findOne(
+    await Usuario.findOne(
         {
             _id: req.params.idUser
         })
@@ -52,7 +52,7 @@ exports.getUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     db.connectDB();
-    Usuario.findOneAndRemove(
+    await Usuario.findOneAndRemove(
         {
             _id: req.params.idUser
         },
@@ -70,7 +70,7 @@ exports.deleteUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     db.connectDB();
-    Usuario.findOneAndUpdate(
+    await Usuario.findOneAndUpdate(
         {
             _id: req.body._id
         },

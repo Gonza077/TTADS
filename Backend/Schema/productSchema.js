@@ -8,5 +8,4 @@ var productSchema = new mongoose.Schema({
     price: { type: Number, default: undefined} ,
 });
 
-var Products = mongoose.model('products', productSchema);
-module.exports = Products;
+module.exports = productSchema;

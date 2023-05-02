@@ -15,8 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 //-----------IMPORTING ROUTES-----------//
-app.use('/api/v2/locals/', localRoutes);
-app.use('/api/v2/users/', userRoutes);
+app.use('/locals/', localRoutes);
+app.use('/users/', userRoutes);
 
 const storage = multer.diskStorage({
   destination: path.join(__dirname, '../public/uploads'),

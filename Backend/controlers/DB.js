@@ -7,8 +7,8 @@ exports.connectDB = async () => {
         useCreateIndex:true,
         useFindAndModify:false
     })
-    .then(() => {
-        //console.log('DB Connected');
+    .then(() =>{
+        //console.log("DB Open");
     })
     .catch((err) => {
         console.log(err);
@@ -24,4 +24,3 @@ exports.disconnectDB = async () =>{
         console.log(err)
     });
 }
-

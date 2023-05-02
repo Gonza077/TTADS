@@ -6,9 +6,9 @@ var productSchema = require('../Schema/productSchema');
 //------------------------------LOCALES------------------------------//
 exports.addLocal = async (req, res) => {
     db.connectDB();
-    new Local(req.body).save()
-        .then((local) => {
-            res.send(local);
+    await new Local(req.body).save()
+        .then((data) => {
+            res.status(200).send(data);
         })
         .catch((error) => {
             res.status(500).json(error);
@@ -20,9 +20,9 @@ exports.addLocal = async (req, res) => {
 
 exports.getLocals = async (req, res) => {
     db.connectDB();
-    Local.find()
-        .then((locales) => {
-            res.send(locales)
+    await Local.find()
+        .then((data) => {
+            res.status(200).json(data)
         })
         .catch((error) => {
             console.error(error);
@@ -42,7 +42,7 @@ exports.getLocal = async (req, res) => {
     if (!req.query.nameLocal) {
         req.query.nameLocal = null
     }
-    Local.findOne(
+    await Local.findOne(
         {
             $or: [
                 { _id: req.query.idLocal },
@@ -66,7 +66,7 @@ exports.getLocal = async (req, res) => {
 
 exports.updateLocal = async (req, res) => {
     db.connectDB();
-    Local.findOneAndUpdate(
+    await Local.findOneAndUpdate(
         { _id: req.body._id },
         req.body,
         { new: true }
@@ -102,7 +102,7 @@ exports.deleteLocal = async (req, res) => {
 //------------------------------PRODUCTOS------------------------------//
 exports.getProducts = async (req, res) => {
     db.connectDB();
-    Local.findOne(
+    await Local.findOne(
         {
             _id: req.params.idLocal
         },
@@ -162,7 +162,7 @@ exports.getProduct = async (req, res) => {
 
 exports.addProducto = async (req, res) => {
     db.connectDB();
-    Local.findOneAndUpdate(
+    await Local.findOneAndUpdate(
         {
             _id: req.params.idLocal,
         },
@@ -183,7 +183,7 @@ exports.addProducto = async (req, res) => {
 
 exports.deleteProducto = async (req, res) => {
     db.connectDB();
-    Local.findOneAndUpdate(
+    await Local.findOneAndUpdate(
         {
             _id: req.body.idLocal,
             products: {
@@ -209,7 +209,7 @@ exports.deleteProducto = async (req, res) => {
 
 exports.editProducto = async (req, res) => {
     db.connectDB();
-    Local.findOneAndUpdate(
+    await Local.findOneAndUpdate(
         {
             _id: req.body.idLocal,
             products: {
