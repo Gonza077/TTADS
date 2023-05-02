@@ -2,8 +2,9 @@ var mongoose = require('mongoose');
 
 var ordersSchema = new mongoose.Schema({
     date: { type: Date, default: Date.now },
-    local: { type: Object | undefined },
-    price: { type: Number | undefined },
+    local: { type: Object },
+    price: { type: Number },
 });
 
-module.exports = ordersSchema;
+const Order = mongoose.model('orders', ordersSchema);
+module.exports = Order;

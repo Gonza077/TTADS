@@ -50,7 +50,7 @@ exports.getLocal = async (req, res) => {
             ]
         },
         {
-            products:1, _id:1, name:1
+            products: 1, _id: 1, name: 1
         }
     )
         .then((data) => {
@@ -133,15 +133,16 @@ exports.getProduct = async (req, res) => {
         req.query.idProduct = null
     }
     await Local.findOne(
-        {   
+        {
             _id: req.query.idLocal,
-            products: { $elemMatch: {  
-                $or: [
-                    { _id: mongoose.Types.ObjectId(req.query.idProduct)},
-                    { name: req.query.nameProduct }
-                ] 
-            } 
-        },
+            products: {
+                $elemMatch: {
+                    $or: [
+                        { _id: mongoose.Types.ObjectId(req.query.idProduct) },
+                        { name: req.query.nameProduct }
+                    ]
+                }
+            },
         },
         {
             _id: 1,
@@ -160,7 +161,7 @@ exports.getProduct = async (req, res) => {
         })
 }
 
-exports.addProducto = async (req, res) => {
+exports.addProduct = async (req, res) => {
     db.connectDB();
     await Local.findOneAndUpdate(
         {
@@ -181,7 +182,7 @@ exports.addProducto = async (req, res) => {
         })
 };
 
-exports.deleteProducto = async (req, res) => {
+exports.deleteProduct = async (req, res) => {
     db.connectDB();
     await Local.findOneAndUpdate(
         {
@@ -207,7 +208,7 @@ exports.deleteProducto = async (req, res) => {
         })
 }
 
-exports.editProducto = async (req, res) => {
+exports.editProduct = async (req, res) => {
     db.connectDB();
     await Local.findOneAndUpdate(
         {

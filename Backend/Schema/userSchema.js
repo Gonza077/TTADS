@@ -1,18 +1,18 @@
 var mongoose = require('mongoose');
-var orderSchema = require("./orderSchema");
+var Orders = require("./orderSchema");
 
 var UsuarioSchema = new mongoose.Schema({
-    userName: { type: String, required: true},
+    userName: { type: String, required: true },
     password: { type: String, default: null },
     gender: { type: String, default: "N/A" },
     name: { type: String, default: null },
-    email: { type: String, default: null},
+    email: { type: String, default: null },
     phone: { type: String, default: null },
     address: { type: String, },
-    registered: { type: Date, default: Date.now },
+    registered: { type: String, default: Date.now },
     age: { type: Number, default: null },
     isActive: { type: Boolean, default: false },
-    orders: [orderSchema],
+    orders: [Orders.schema],
 });
 
 var Usuario = mongoose.model('users', UsuarioSchema);

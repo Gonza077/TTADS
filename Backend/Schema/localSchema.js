@@ -8,7 +8,7 @@ var LocalSchema = new mongoose.Schema({
     address: { type: String, required: true },
     isActive: { type: Boolean, default: false },
     registered: { type: Date, default: Date.now },
-    products: [ productSchema ],
+    products: [ productSchema.schema ],
     tags: [{
         value: { type: String, default: null }
     }],
