@@ -17,7 +17,7 @@ export class LocalService {
   }
 
   addLocal(localForm: any) {
-    return this.http.post(this.urlBackend + "addLocal", localForm).subscribe();
+    return this.http.post(this.urlBackend + "addLocal", localForm.value).subscribe();
   }
 
   editLocal(localForm: any) {

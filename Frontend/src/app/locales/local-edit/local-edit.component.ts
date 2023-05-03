@@ -6,10 +6,6 @@ import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { LocalService } from 'src/app/services/local/local.service';
 import { ToastrService } from 'ngx-toastr';
 
-export interface Fruit {
-  name: string;
-}
-
 @Component({
   selector: 'app-local-edit',
   templateUrl: './local-edit.component.html',
@@ -41,41 +37,40 @@ export class LocalEditComponent {
     }
   }
 
-  //TODO ESTO FALTA DESARROLLAR
   //------------------------------CHIP------------------------------//
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   tags: any[] = this.local.tags;
-
+  
   addTag(event: MatChipInputEvent): void {
     const valueTag = (event.value || '').trim();
     // Add our fruit
     if (valueTag) {
-      this.tags.push({ value: valueTag });
+      this.tags.push(valueTag);
     }
     // Clear the input value
     event.chipInput!.clear();
   }
 
-  removeTag(fruit: Fruit): void {
-    const index = this.tags.indexOf(fruit);
+  removeTag(tag: String): void {
+    const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
   }
 
-  editTag(fruit: Fruit, event: MatChipEditedEvent) {
+  editTag(tag: String, event: MatChipEditedEvent) {
     const value = event.value.trim();
     // Remove fruit if it no longer has a name
     if (!value) {
-      this.removeTag(fruit);
+      this.removeTag(tag);
       return;
     }
 
     // Edit existing fruit
-    const index = this.tags.indexOf(fruit);
+    const index = this.tags.indexOf(tag);
     if (index >= 0) {
-      this.tags[index].name = value;
+      this.tags[index] = value;
     }
   }
   //------------------------------CHIP------------------------------//

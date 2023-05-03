@@ -5,10 +5,6 @@ import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { LocalService } from 'src/app/services/local/local.service';
 import { ToastrService } from 'ngx-toastr';
 
-export interface Fruit {
-  name: string;
-}
-
 @Component({
   selector: 'app-local-add',
   templateUrl: './local-add.component.html',
@@ -22,7 +18,6 @@ export class LocalAddComponent {
   ){}
 
   localForm = new FormGroup({
-    id: new FormControl(''),
     name: new FormControl('', Validators.required),
     email: new FormControl('', Validators.email),
     address: new FormControl('', Validators.required),
@@ -41,38 +36,39 @@ export class LocalAddComponent {
   //------------------------------CHIP------------------------------//
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  tags: Fruit[] = [{name: 'Lemon'}, {name: 'Lime'}, {name: 'Apple'}];
-
+  tags: any[] = [];
+  
   addTag(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+    const valueTag = (event.value || '').trim();
     // Add our fruit
-    if (value) {
-      this.tags.push({name: value});
+    if (valueTag) {
+      this.tags.push(valueTag);
     }
     // Clear the input value
     event.chipInput!.clear();
   }
 
-  removeTag(fruit: Fruit): void {
-    const index = this.tags.indexOf(fruit);
+  removeTag(tag: String): void {
+    const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
   }
 
-  editTag(fruit: Fruit, event: MatChipEditedEvent) {
+  editTag(tag: String, event: MatChipEditedEvent) {
     const value = event.value.trim();
     // Remove fruit if it no longer has a name
     if (!value) {
-      this.removeTag(fruit);
+      this.removeTag(tag);
       return;
     }
 
     // Edit existing fruit
-    const index = this.tags.indexOf(fruit);
+    const index = this.tags.indexOf(tag);
     if (index >= 0) {
-      this.tags[index].name = value;
+      this.tags[index] = value;
     }
   }
+  //------------------------------CHIP------------------------------//
 
 }
