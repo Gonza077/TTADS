@@ -20,7 +20,7 @@ exports.addLocal = async (req, res) => {
 
 exports.getLocals = async (req, res) => {
     db.connectDB();
-    await Local.find()
+    await Local.find({})
         .then((data) => {
             res.status(200).json(data)
         })
@@ -144,9 +144,8 @@ exports.getProduct = async (req, res) => {
                 }
             },
         },
-        {
-            _id: 1,
-            name: 1,
+        {   
+            _id:1,
             "products.$": 1,
         }
     )

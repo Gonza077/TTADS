@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
-const Usuario = require('../Schema/userSchema');
-const Order = require("../Schema/orderSchema")
-//const jwt = require('jsonwebtoken');
 const db = require('./DB');
+const Usuario = require('../Schema/userSchema');
+const Order = require("../Schema/orderSchema");
+const Local = require('../Schema/localSchema');
+//const jwt = require('jsonwebtoken');
+
 
 exports.addUser = async (req, res) => {
     db.connectDB();
@@ -92,30 +94,44 @@ exports.updateUser = async (req, res) => {
 
 //-------------------------ORDERS-------------------------//
 exports.addOrder = async (req, res) => {
-    db.connectDB();
-    await Usuario.findOneAndUpdate(
+    db.connectDB();   
+    let productsSelecteds =[];
+    let local = await Local.findOne(
+        { _id : req.body.local._id
+            
+        } ,
         {
-            _id: req.params.idUser
-        },
-        {
-            $addToSet: { orders: new Order(req.body) }
-        },
-        {
-            new: true
+            products:1  
         }
-    )
-        .then((data) => {
-            if (data) {
-                return res.status(200).json(data);
-            }
-            res.status(400).json("El usuario buscado no existe");
-        })
-        .catch((error) => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
+    ); 
+    console.log(local);
+    
+    //GUARDA SOLAMENTE EL ULTIMO ELEMENTO ENVIADO 
+    // let order = new Order();
+    // order.local = local;
+    // await Usuario.findOneAndUpdate(
+    //     {
+    //         _id: req.params.idUser
+    //     },
+    //     {
+    //         $addToSet: { orders: order }
+    //     },
+    //     {
+    //         new: true
+    //     }
+    // )
+    //     .then((data) => {
+    //         if (data) {
+    //             return res.status(200).json(data);
+    //         }
+    //         res.status(400).json("El usuario buscado no existe");
+    //     })
+    //     .catch((error) => {
+    //         res.status(500).json(error);
+    //     })
+    //     .finally(() => {
+    //         db.disconnectDB();
+    //     })
 }
 
 exports.getOrders = async (req, res) => {
