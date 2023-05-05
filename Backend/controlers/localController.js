@@ -6,7 +6,7 @@ var productSchema = require('../Schema/productSchema');
 //------------------------------LOCALES------------------------------//
 exports.addLocal = async (req, res) => {
     db.connectDB();
-    await new Local(req.body).save()
+    await Local.create(req.body)
         .then((data) => {
             res.status(200).send(data);
         })
@@ -20,13 +20,12 @@ exports.addLocal = async (req, res) => {
 
 exports.getLocals = async (req, res) => {
     db.connectDB();
-    await Local.find({})
+    await Local.getAllLocals()
         .then((data) => {
             res.status(200).json(data)
         })
         .catch((error) => {
-            console.error(error);
-            res.status(500).send('Hubo un error al recuperar los locales');
+            res.status(500).json(error);
         })
         .finally(() => {
             db.disconnectDB()
@@ -35,24 +34,15 @@ exports.getLocals = async (req, res) => {
 
 exports.getLocal = async (req, res) => {
     db.connectDB();
-    //Casteo de valores nulos o faltantes
-    if (!req.query.idLocal) {
-        req.query.idLocal = null
+    let idLocal = null;
+    let nameLocal = null;
+    if (req.query.idLocal) {
+        idLocal = req.query.idLocal;
     }
-    if (!req.query.nameLocal) {
-        req.query.nameLocal = null
-    }
-    await Local.findOne(
-        {
-            $or: [
-                { _id: req.query.idLocal },
-                { name: req.query.nameLocal }
-            ]
-        },
-        {
-            products: 1, _id: 1, name: 1
-        }
-    )
+    if (req.query.nameLocal) {
+        nameLocal = req.query.nameLocal;
+    } 
+    await Local.getLocal(idLocal,nameLocal)
         .then((data) => {
             res.status(200).json(data);
         })
@@ -66,11 +56,7 @@ exports.getLocal = async (req, res) => {
 
 exports.updateLocal = async (req, res) => {
     db.connectDB();
-    await Local.findOneAndUpdate(
-        { _id: req.body._id },
-        req.body,
-        { new: true }
-    )
+    await Local.updateLocal(req.body)
         .then((data) => {
             res.status(200).json(data);
         })
@@ -84,9 +70,7 @@ exports.updateLocal = async (req, res) => {
 
 exports.deleteLocal = async (req, res) => {
     db.connectDB();
-    await Local.findOneAndRemove({
-        _id: req.params.idLocal
-    })
+    await Local.deleteLocal(req.params.idLocal)
         .then((data) => {
             res.status(200).json(data);
         })
@@ -144,8 +128,8 @@ exports.getProduct = async (req, res) => {
                 }
             },
         },
-        {   
-            _id:1,
+        {
+            _id: 1,
             "products.$": 1,
         }
     )

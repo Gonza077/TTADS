@@ -3,102 +3,11 @@ const db = require('./DB');
 const Usuario = require('../Schema/userSchema');
 const Order = require("../Schema/orderSchema");
 const Local = require('../Schema/localSchema');
-//const jwt = require('jsonwebtoken');
 
-
-exports.addUser = async (req, res) => {
-    db.connectDB();
-    await new Usuario(req.body).save()
-        .then((data) => {
-            return res.status(200).json(data);
-        })
-        .catch(error => {
-            res.status(500).json(error)
-        })
-        .finally(() => {
-            db.disconnectDB()
-        });
-};
-
-exports.getUsers = async (req, res) => {
-    db.connectDB();
-    await Usuario.find({}, { orders: 0, registered: 0 })
-        .then(data => {
-            res.status(200).json(data);
-        })
-        .catch((error) => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-};
-
-exports.getUser = async (req, res) => {
-    db.connectDB();
-    await Usuario.findOne(
-        {
-            _id: req.params.idUser
-        })
-        .then((data) => {
-            if (data) {
-                return res.status(200).json(data);
-            }
-            res.status(400).json("El usuario buscado no existe");
-        })
-        .catch((error) => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-};
-
-exports.deleteUser = async (req, res) => {
-    db.connectDB();
-    await Usuario.findOneAndRemove(
-        {
-            _id: req.params.idUser
-        },
-    )
-        .then((data) => {
-            res.status(200).json(data);
-        })
-        .catch((error) => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-}
-
-exports.updateUser = async (req, res) => {
-    db.connectDB();
-    await Usuario.findOneAndUpdate(
-        {
-            _id: req.body._id
-        },
-        req.body
-    )
-        .then((data) => {
-            res.status(200).json(data);
-        })
-        .catch((error) => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-};
-
-
-//-------------------------ORDERS-------------------------//
 exports.addOrder = async (req, res) => {
     db.connectDB();   
     //FALTA VALIDAR EL LOCAL Y LOS PRODUCTOS INGRESADOS
     let products=[];
-    console.log(req.body);
-    console.log(req.body.local.products);
     let productSelected = await Local.findOne(
         {
             _id: req.body.local._id,
@@ -121,8 +30,7 @@ exports.addOrder = async (req, res) => {
             db.disconnectDB();
         })
     console.log(productSelected);
-    
-    // let order = new Order();
+    // let order = new Order(req.body);
     // await Usuario.findOneAndUpdate(
     //     {
     //         _id: req.params.idUser
@@ -155,8 +63,8 @@ exports.getOrders = async (req, res) => {
             _id: req.params.idUser,
         },
         {
-            _id: 1,
             name: 1,
+            _id: 1,
             orders: 1
         }
     )
@@ -255,26 +163,3 @@ exports.deleteOrder = async (req, res) => {
             db.disconnectDB();
         })
 }
-
-// exports.login = async (req, res) => {
-//     db.connectDB();
-//     Usuario.findOne({
-//         userName: req.body.userName,
-//         password: req.body.password
-//     })
-//     .then( (user) =>{
-//         if(user){
-//             return res.status(200).json("Usuario logeado con exito");
-//         }
-//         return res.status(401).send("El usuario y/o contraseña ingresados no son correctos");
-//     })
-//     .catch(error =>{
-//         console.log(error);
-//         res.status(401).send("Error al realizar el login");
-//     })
-//     .finally(() =>{
-//         db.disconnectDB();
-//     });
-// };
-
-

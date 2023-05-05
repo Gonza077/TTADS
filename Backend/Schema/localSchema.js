@@ -9,10 +9,55 @@ var LocalSchema = new mongoose.Schema(
         address: { type: String, required: true },
         isActive: { type: Boolean, default: false },
         registered: { type: Date, default: Date.now },
-        products: [productSchema.schema],
+        products: [
+            new mongoose.Schema({
+                name: { type: String, required: true },
+                description: { type: String, default: null },
+                category: { type: String, default: null },
+                subCategory: { type: String, default: null },
+                price: { type: Number, default: undefined },
+            })
+        ],
         tags: [{ type: String, default: null }],
-    }
+    },
 );
+
+//Se crea un metodo de instancia que devuelva todos los locales
+LocalSchema.statics.getAllLocals = function () {
+    return this.find({});
+}
+
+//Devuelve el local ingresado, ya sea por nombre o ID
+LocalSchema.statics.getLocal = function (idLocal, nameLocal) {
+    return this.findOne(
+        {
+            $or: [
+                { _id: idLocal },
+                { name: nameLocal }
+            ]
+        },
+        {
+            products: 1, _id: 1, name: 1
+        }
+    )
+}
+
+LocalSchema.statics.updateLocal = function (dataLocal) {
+    return this.findOneAndUpdate(
+        { _id: dataLocal._id },
+        dataLocal,
+        { new: true }
+    )
+}
+
+LocalSchema.statics.deleteLocal = function (idLocal) {
+    return this.findOneAndRemove({
+        _id: idLocal
+    })
+}
+
+
+
 
 // LocalSchema.methods.getProductsOrder = function (products){
 //     products.forEach((element) => {

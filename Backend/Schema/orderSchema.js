@@ -9,7 +9,8 @@ var ordersSchema = new mongoose.Schema(
 );
 
 ordersSchema.methods.calculatePriceOrder = function (){
-    console.log(this.price)
+    //ACA POR CADA PRODUCTOS DE LLOCAL DEBERIA CALCULARSE EL PRECIO FINAL
+    this.price = 100
 }
 
 const Order = mongoose.model('orders', ordersSchema);
