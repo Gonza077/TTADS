@@ -98,8 +98,7 @@ exports.addOrder = async (req, res) => {
     //FALTA VALIDAR EL LOCAL Y LOS PRODUCTOS INGRESADOS
     let products=[];
     console.log(req.body);
-    console.log(req.body.local.products);
-    let productSelected = await Local.findOne(
+    let local = await Local.findOne(
         {
             _id: req.body.local._id,
             products: {
@@ -120,7 +119,7 @@ exports.addOrder = async (req, res) => {
         .finally(() => {
             db.disconnectDB();
         })
-    console.log(productSelected);
+    console.log(local);
     
     // let order = new Order();
     // await Usuario.findOneAndUpdate(

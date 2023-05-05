@@ -16,7 +16,7 @@ router.post('/addLocal', localController.addLocal);
 //------------------------------PRODUCTOS------------------------------//
 router.get('/getProducts/:idLocal', productController.getProducts);
 router.get('/getProduct', productController.getProduct);
-router.post('/addProduct/:idLocal', productController.addProduct);
+router.post('/addProduct/:idLocal', localController.addProduct);
 router.delete('/deleteProduct', productController.deleteProduct);
 router.put('/editProduct', productController.editProduct);
 

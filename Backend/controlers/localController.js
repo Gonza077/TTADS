@@ -1,7 +1,7 @@
 const db = require('./DB');
 const Local = require('../Schema/localSchema');
 const mongoose = require('mongoose');
-var productSchema = require('../Schema/productSchema');
+var Product = require('../Schema/productSchema');
 
 //------------------------------LOCALES------------------------------//
 exports.addLocal = async (req, res) => {
@@ -146,12 +146,13 @@ exports.getProduct = async (req, res) => {
 
 exports.addProduct = async (req, res) => {
     db.connectDB();
+    console.log(req.body);
     await Local.findOneAndUpdate(
         {
             _id: req.params.idLocal,
         },
         {
-            $addToSet: { products: new productSchema(req.body) }
+            $addToSet: { products: new Product(req.body) }
         }
     )
         .then((data) => {
