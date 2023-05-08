@@ -30,34 +30,38 @@ exports.getProducts = async (req, res) => {
 exports.getProduct = async (req, res) => {
     db.connectDB();
     //Casteo de valores nulos o faltantes
-    if (!req.query.nameProduct) {
-        req.query.nameProduct = null
+    let nameProduct=null;
+    let idProduct = null;
+    //Casteo de valores nulos o faltantes
+    if (req.body.nameProduct) {
+        nameProduct= req.body.nameProduct;
     }
-    if (!req.query.idProduct) {
-        req.query.idProduct = null
+    if (req.body.idProduct) {
+        idProduct =  req.body.idProduct;
     }
-    await Local.findOne(
-        {
-            _id: req.query.idLocal,
-            products: {
-                $elemMatch: {
-                    $or: [
-                        { _id: mongoose.Types.ObjectId(req.query.idProduct) },
-                        { name: req.query.nameProduct }
-                    ]
-                }
-            },
-        },
-        {   
-            _id:1,
-            "products.$": 1,
-        }
-    )
+    await Local.getProduct(req.params.idLocal, nameProduct,idProduct)
+    // await Local.findOne(
+    //     {
+    //         _id: mongoose.Types.ObjectId(req.params.idLocal),
+    //         products: {
+    //             $elemMatch: {
+    //                 $or: [
+    //                     { _id: mongoose.Types.ObjectId(idProduct) },
+    //                     { name: nameProduct }
+    //                 ]
+    //             }
+    //         },
+    //     },
+    //     {   
+    //         _id:0,
+    //         "products.$": 1,
+    //     }
+    // )
         .then(data => {
             res.status(200).json(data);
         })
         .catch((error) => {
-            res.send(500).json(error);
+            res.status(500).json(error);
         })
         .finally(() => {
             db.disconnectDB();
@@ -66,13 +70,17 @@ exports.getProduct = async (req, res) => {
 
 exports.addProduct = async (req, res) => {
     db.connectDB();
-    console.log(req.body);
+    let product = new Product(req.body);
+    //Valida la creacion del producto
+    if (product.validateSync()){
+        return res.status(500).json(product.validateSync());
+    } 
     await Local.findOneAndUpdate(
         {
             _id: req.params.idLocal,
         },
         {
-            $addToSet: { products: new Product(req.body) }
+            $addToSet: { products: product }
         }
     )
         .then((data) => {

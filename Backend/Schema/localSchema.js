@@ -4,13 +4,13 @@ var Product = require("./productSchema");
 var LocalSchema = new mongoose.Schema(
     {
         name: { type: String, required: true },
-        email: { type: String, default: null },
-        phone: { type: String, default: null },
+        email: { type: String },
+        phone: { type: String },
         address: { type: String, required: true },
-        isActive: { type: Boolean, default: false },
-        registered: { type: Date, default: Date.now },
-        products: [ Product.schema ],
-        tags: [{ type: String, default: null }],
+        isActive: { type: Boolean },
+        registered: { type: Date, default: Date.now},
+        products: [Product.schema],
+        tags: { type: Array },
     },
 );
 
@@ -29,7 +29,7 @@ LocalSchema.statics.getLocal = function (idLocal, nameLocal) {
                 ]
             },
             {
-                products: 1, _id: 1, name: 1
+                products: 1, _id: 1, name: 1 , address:1,
             }
     )
 }
@@ -46,6 +46,26 @@ LocalSchema.statics.deleteLocal = function (idLocal){
     return this.findOneAndRemove({
         _id: idLocal
     })
+}
+
+LocalSchema.statics.getProduct = function (idLocal,nameProduct,idProduct){
+    return Local.findOne(
+        {
+            _id: mongoose.Types.ObjectId(idLocal),
+            products: {
+                $elemMatch: {
+                    $or: [
+                        { _id: mongoose.Types.ObjectId(idProduct) },
+                        { name: nameProduct }
+                    ]
+                }
+            },
+        },
+        {   
+            _id:0,
+            "products.$": 1,
+        }
+    )
 }
 
 

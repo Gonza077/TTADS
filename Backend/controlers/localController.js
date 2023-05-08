@@ -1,7 +1,7 @@
 const db = require('./DB');
 const Local = require('../Schema/localSchema');
 const mongoose = require('mongoose');
-var Product = require('../Schema/productSchema');
+const Product = require('../Schema/productSchema');
 
 //------------------------------LOCALES------------------------------//
 exports.addLocal = async (req, res) => {

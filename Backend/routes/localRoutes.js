@@ -3,8 +3,6 @@ const router = Router();
 const localController = require('../controlers/localController');
 const productController = require('../controlers/productController');
 
-//router.get('/getLocals',verifyToken, localController.getLocals); EJEMPLO DE JWT INCORPORADO
-
 //------------------------------LOCALS------------------------------//
 router.get('/', localController.getLocals);
 router.get('/getLocal', localController.getLocal);
@@ -15,8 +13,8 @@ router.post('/addLocal', localController.addLocal);
 
 //------------------------------PRODUCTOS------------------------------//
 router.get('/getProducts/:idLocal', productController.getProducts);
-router.get('/getProduct', productController.getProduct);
-router.post('/addProduct/:idLocal', localController.addProduct);
+router.get('/getProduct/:idLocal', productController.getProduct);
+router.post('/addProduct/:idLocal', productController.addProduct);
 router.delete('/deleteProduct', productController.deleteProduct);
 router.put('/editProduct', productController.editProduct);
 

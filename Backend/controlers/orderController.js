@@ -5,42 +5,34 @@ const Order = require("../Schema/orderSchema");
 const Local = require('../Schema/localSchema');
 
 exports.addOrder = async (req, res) => {
-    db.connectDB();   
-    let order = new Order();        
+    db.connectDB();          
     //Se busca el local con el ID ingresado
-    let local = await Local.findOne(
-        {
-            _id: mongoose.Types.ObjectId(req.body.local._id),
-        },
-        {   
-            _id:1,
-            products: 1,
-        }
-    )
+    let local = await Local.getLocal(req.body.localID)
         .then((data) => {      
             //Para obtener la data de la BD
             return data;
         })
-        .catch((error) => {
-            res.status(500).json(error);
-        })
     //Se valida que exista el local ingresado
     if (local){
-        //Se asigna el id del local
-        order.local._id = local._id;
-        //Por cada producto del local ingresado se valida que el ID que se manda por el body exista 
-        //si no, se desprecia
+        let order = new Order();
+        //Hay que filtrar los productos seleccionados
+        let products = []
         local.products.forEach( localProd => {
-            req.body.local.products.forEach(
+            req.body.products.forEach(
                 orderProduct => {
                     if (localProd._id == orderProduct._id){
-                        order.local.products.push(localProd);
+                        products.push(localProd);
                     }
                 }                  
             )
         })
+        local.products = products
+        order.setLocal(local);
         //Se calcula el precio de la orden y se asigna al usuario
         order.calculatePriceOrder();
+        if(order.validateSync()){
+            return res.status(500).json(order.validateSync());
+        }
         await Usuario.findOneAndUpdate(
             {
                 _id: req.params.idUser
@@ -48,9 +40,8 @@ exports.addOrder = async (req, res) => {
             {
                 $addToSet: { orders: order }
             },
-            {
-                
-                orders:1
+            { 
+                new: true
             }
         )
             .then((data) => {
@@ -153,15 +144,15 @@ exports.deleteOrder = async (req, res) => {
     db.connectDB();
     await Usuario.findOneAndUpdate(
         {
-            _id: req.params.idUser,
-            orders : {
-                $elemMatch: { _id: mongoose.Types.ObjectId(req.body.idOrder) }
-            },
+            _id: req.params.idUser
         },
         {
             $pull: {
                 orders: { _id: mongoose.Types.ObjectId(req.body.idOrder) }
             }
+        },
+        {
+            new:true,
         }
     )
         .then((data) => {
