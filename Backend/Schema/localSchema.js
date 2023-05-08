@@ -9,8 +9,14 @@ var LocalSchema = new mongoose.Schema(
         address: { type: String, required: true },
         isActive: { type: Boolean },
         registered: { type: Date, default: Date.now},
-        products: [Product.schema],
-        tags: { type: Array },
+        products: {
+            type: [Product.schema],
+            default: undefined
+          },
+        tags: {
+            type: [],
+            default: undefined
+          }
     },
 );
 
@@ -29,7 +35,7 @@ LocalSchema.statics.getLocal = function (idLocal, nameLocal) {
                 ]
             },
             {
-                products: 1, _id: 1, name: 1 , address:1,
+                products: 1, _id: 1, name: 1 , address:1
             }
     )
 }
@@ -67,31 +73,6 @@ LocalSchema.statics.getProduct = function (idLocal,nameProduct,idProduct){
         }
     )
 }
-
-
-
-
-// LocalSchema.methods.getProductsOrder = function (products){
-//     products.forEach((element) => {
-//         console.log(element)
-//     });
-//     // Local.findOne(
-//     //     {
-//     //         _id: idLocal,
-//     //         products: {
-//     //             $elemMatch: {
-//     //                 $or: [
-//     //                     { _id: mongoose.Types.ObjectId(req.query.idProduct) },
-//     //                     { name: req.query.nameProduct }
-//     //                 ]
-//     //             }
-//     //         },
-//     //     },
-//     //     {
-//     //         "products.$": 1,
-//     //     }
-//     // )
-// }
 
 
 var Local = mongoose.model('locals', LocalSchema);

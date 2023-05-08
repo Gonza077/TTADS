@@ -12,7 +12,10 @@ var UsuarioSchema = new mongoose.Schema({
     registered: { type: String, default: Date.now },
     age: { type: Number, default: null },
     isActive: { type: Boolean, default: false },
-    orders: [Orders.schema],
+    orders: {
+        type: [Orders.schema],
+        default: undefined
+      },
 });
 
 var Usuario = mongoose.model('users', UsuarioSchema);

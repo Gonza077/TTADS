@@ -12,7 +12,8 @@ exports.addOrder = async (req, res) => {
             //Para obtener la data de la BD
             return data;
         })
-    //Se valida que exista el local ingresado
+    //Se valida que exista el local ingresado, 
+    //pero falta que tenga productos y posterior crear la orden
     if (local){
         let order = new Order();
         //Hay que filtrar los productos seleccionados

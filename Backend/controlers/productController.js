@@ -98,7 +98,7 @@ exports.deleteProduct = async (req, res) => {
     db.connectDB();
     await Local.findOneAndUpdate(
         {
-            _id: req.body.idLocal,
+            _id: req.params.idLocal,
             products: {
                 $elemMatch: { _id: mongoose.Types.ObjectId(req.body.idProduct) }
             },
