@@ -74,7 +74,7 @@ export class LocalsComponent implements OnInit {
 
   openProducts(local: any) {
     const dialogRef = this.dialog.open(ProductsComponent, { 
-      data: local 
+      data: local._id 
     });
   }
 
