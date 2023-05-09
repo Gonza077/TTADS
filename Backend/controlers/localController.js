@@ -1,7 +1,5 @@
 const db = require('./DB');
 const Local = require('../Schema/localSchema');
-const mongoose = require('mongoose');
-const Product = require('../Schema/productSchema');
 
 exports.addLocal = async (req, res) => {
     db.connectDB();
@@ -19,7 +17,7 @@ exports.addLocal = async (req, res) => {
 
 exports.getLocals = async (req, res) => {
     db.connectDB();
-    await Local.getAllLocals()
+    await Local.find({})
         .then((data) => {
             res.status(200).json(data)
         })
@@ -41,7 +39,17 @@ exports.getLocal = async (req, res) => {
     if (req.query.nameLocal) {
         nameLocal = req.query.nameLocal;
     } 
-    await Local.getLocal(idLocal,nameLocal)
+    await Local.findOne(
+        {
+            $or: [
+                { _id: idLocal },
+                { name: nameLocal }
+            ]
+        },
+        {
+            products: 1, _id: 1, name: 1 , address:1
+        }
+)
         .then((data) => {
             res.status(200).json(data);
         })
@@ -55,21 +63,29 @@ exports.getLocal = async (req, res) => {
 
 exports.updateLocal = async (req, res) => {
     db.connectDB();
-    await Local.updateLocal(req.body)
-        .then((data) => {
-            res.status(200).json(data);
+    await Local.findOneAndUpdate({ 
+        _id: req.body._id 
+        },
+        req.body,
+        { 
+            new: true 
         })
-        .catch(() => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch(() => {
+                res.status(500).json(error);
+            })
+            .finally(() => {
+                db.disconnectDB();
+            })
 };
 
 exports.deleteLocal = async (req, res) => {
     db.connectDB();
-    await Local.deleteLocal(req.params.idLocal)
+    await Local.findOneAndRemove({
+            _id: req.params.idLocal
+    })
         .then((data) => {
             res.status(200).json(data);
         })

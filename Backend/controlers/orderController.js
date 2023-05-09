@@ -7,55 +7,72 @@ const Local = require('../Schema/localSchema');
 exports.addOrder = async (req, res) => {
     db.connectDB();          
     //Se busca el local con el ID ingresado
-    let local = await Local.getLocal(req.body.localID)
+    let local = await Local.findOne({ 
+            _id: req.body.localID 
+        },
+        {
+            products: 1, _id: 1, name: 1 , address:1
+        })
         .then((data) => {      
             //Para obtener la data de la BD
             return data;
         })
-    //Se valida que exista el local ingresado, 
-    //pero falta que tenga productos y posterior crear la orden
-    if (local){
-        let order = new Order();
-        //Hay que filtrar los productos seleccionados
-        let products = []
-        local.products.forEach( localProd => {
-            req.body.products.forEach(
-                orderProduct => {
-                    if (localProd._id == orderProduct._id){
-                        products.push(localProd);
-                    }
-                }                  
-            )
+        .catch((error) => {
+            res.status(500).json(error);
         })
-        local.products = products
-        order.setLocal(local);
-        //Se calcula el precio de la orden y se asigna al usuario
-        order.calculatePriceOrder();
-        if(order.validateSync()){
-            return res.status(500).json(order.validateSync());
-        }
-        await Usuario.findOneAndUpdate(
-            {
-                _id: req.params.idUser
-            },
-            {
-                $addToSet: { orders: order }
-            },
-            { 
-                new: true
+    //TODO ESTO ESTA ASI NOMAS, HABRIA QUE PULIRLO Y VER SI SE CREAN METODOS DE INSTANCIA
+    if (local){
+        //Hay que filtrar los productos seleccionados
+        //------ATADO CON ALAMBRE-----//
+        if (local.products.length > 0 ){   
+            let products = []
+            local.products.forEach( localProd => {
+                req.body.products.forEach(
+                    orderProduct => {
+                        if (localProd._id == orderProduct._id){
+                            products.push(localProd);
+                        }
+                    }                  
+                )
+            })  
+            local.products = products
+        //------ATADO CON ALAMBRE-----//
+
+            let order = new Order();
+            order.setLocal(local);
+            //Se calcula el precio de la orden y se asigna al usuario
+            order.calculatePriceOrder();
+            if(order.validateSync()){
+                return res.status(500).json(order.validateSync());
             }
-        )
-            .then((data) => {
-                if (data) {
-                    return res.status(200).json(data);
+            await Usuario.findOneAndUpdate(
+                {
+                    _id: req.params.idUser
+                },
+                {
+                    $addToSet: { orders: order }
+                },
+                { 
+                    new: true
                 }
-            })
-            .catch((error) => {
-                res.status(500).json(error);
-            })
-            .finally(() => {
-                db.disconnectDB();
-            })
+            )
+                .then((data) => {
+                    if (data) {
+                        return res.status(200).json(data);
+                    }
+                })
+                .catch((error) => {
+                    res.status(500).json(error);
+                })
+                .finally(() => {
+                    db.disconnectDB();
+                })
+
+        }else{
+            res.status(500).json("Local no tiene productos");
+        }
+    } else{
+        res.status(500).json("Local inexistente");
     }
 }
 
