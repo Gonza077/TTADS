@@ -17,19 +17,19 @@ export class LocalService {
   }
 
   getLocal(localID: any){
-    return this.http.get(this.urlBackend+"/getLocal?idLocal="+localID);
+    return this.http.get(this.urlBackend+"/local?idLocal="+localID);
   }
 
   addLocal(localForm: any) {
-    return this.http.post(this.urlBackend + "addLocal", localForm.value).subscribe();
+    return this.http.post(this.urlBackend + "add", localForm.value).subscribe();
   }
 
   editLocal(localForm: any) {
-    return this.http.put(this.urlBackend + "updateLocal", localForm.value).subscribe();
+    return this.http.put(this.urlBackend + "update", localForm.value).subscribe();
   }
 
   deleteLocal(localID: Number) {
-    return this.http.delete(this.urlBackend + "deleteLocal/" + localID).subscribe();
+    return this.http.delete(this.urlBackend + "delete/" + localID).subscribe();
   }
 
 }

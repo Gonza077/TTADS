@@ -5,7 +5,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { LocalService } from 'src/app/services/local/local.service';
-import { ProductsService } from 'src/app/services/product/products.service';
 
 @Component({
   selector: 'app-products',
@@ -18,17 +17,15 @@ export class ProductsComponent implements OnInit{
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public localID: any,
-    private localService: LocalService,
-    private productService :ProductsService){
-
+    private localService: LocalService){
   }
 
   ngOnInit(): void {
     this.changeFilters();
     this.localService.getLocal(this.localID).subscribe(
-      (data:any) =>{
-        this.local = data;
-        this.dataSource.data = data.products
+      (local:any) =>{
+        this.local = local;
+        this.dataSource.data = local.products;
       }
     )
   }

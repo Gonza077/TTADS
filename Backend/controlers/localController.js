@@ -18,8 +18,8 @@ exports.addLocal = async (req, res) => {
 exports.getLocals = async (req, res) => {
     db.connectDB();
     await Local.find({})
-        .then((data) => {
-            res.status(200).json(data)
+        .then((locals) => {
+            res.status(200).json(locals)
         })
         .catch((error) => {
             res.status(500).json(error);
@@ -50,11 +50,11 @@ exports.getLocal = async (req, res) => {
             products: 1, _id: 1, name: 1 , address:1
         }
 )
-        .then((data) => {
-            res.status(200).json(data);
+        .then((local) => {
+            res.status(200).json(local);
         })
-        .catch((error) => {
-            res.status(500).json(error);
+        .catch(() => {
+            res.status(404).json({message:"No Local with that ID"});
         })
         .finally(() => {
             db.disconnectDB();

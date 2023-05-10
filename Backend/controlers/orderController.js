@@ -24,6 +24,7 @@ exports.addOrder = async (req, res) => {
     if (local){
         //Hay que filtrar los productos seleccionados
         //------ATADO CON ALAMBRE-----//
+
         if (local.products.length > 0 ){   
             let products = []
             local.products.forEach( localProd => {

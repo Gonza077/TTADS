@@ -4,10 +4,10 @@ const localController = require('../controlers/localController');
 
 //------------------------------LOCALS------------------------------//
 router.get('/', localController.getLocals);
-router.get('/getLocal', localController.getLocal);
-router.delete('/deleteLocal/:idLocal', localController.deleteLocal);
-router.put('/updateLocal', localController.updateLocal);
-router.post('/addLocal', localController.addLocal);
+router.get('/local', localController.getLocal);
+router.delete('/delete/:idLocal', localController.deleteLocal);
+router.put('/update', localController.updateLocal);
+router.post('/add', localController.addLocal);
 //------------------------------LOCALS------------------------------//
 
 
