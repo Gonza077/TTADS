@@ -6,16 +6,9 @@ const Product = require('../Schema/productSchema');
 //------------------------------PRODUCTOS------------------------------//
 exports.getProducts = async (req, res) => {
     db.connectDB();
-    await Local.findOne(
-        {
-            _id: req.params.idLocal
-        },
-        {
-            _id: 1,
-            name: 1,
-            products: 1
-        }
-    )
+    await Local.findOne({ _id: req.params.idLocal })
+        .select("name products address")
+        .populate("products")
         .then(data => {
             res.status(200).json(data)
         })
@@ -72,6 +65,7 @@ exports.addProduct = async (req, res) => {
     if (product.validateSync()) {
         return res.status(500).json(product.validateSync());
     }
+    product.save();
     await Local.findOneAndUpdate(
         {
             _id: req.params.idLocal,

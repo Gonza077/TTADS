@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var Product = require("./productSchema");
 
 var LocalSchema = new mongoose.Schema(
     {
@@ -9,7 +8,7 @@ var LocalSchema = new mongoose.Schema(
         address: { type: String, required: true },
         isActive: { type: Boolean },
         registered: { type: Date, default: Date.now },
-        products: { type: [Product.schema], default: undefined },
+        products: { type: [ { type: mongoose.Types.ObjectId, ref: 'products' } ]},
         tags: { type: [], default: undefined }
     },
 );

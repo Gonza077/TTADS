@@ -1,11 +1,25 @@
 const db = require('./DB');
+const mongoose = require('mongoose');
 const Local = require('../Schema/localSchema');
+const Product = require('../Schema/productSchema');
 
 exports.addLocal = async (req, res) => {
     db.connectDB();
-    await Local.create(req.body)
-        .then((data) => {
-            res.status(200).send(data);
+    //delete req.body.products;
+    let local = new Local(req.body);
+    let products = [];
+    if (req.body.products) {
+        req.body.products.forEach(async prod => {
+            let product = new Product(prod);
+            product.local = local._id;
+            product.save();
+            products.push(product._id);
+        });
+        local.products = products;
+    }
+    local.save()
+        .then((local) => {
+            res.status(200).json(local);
         })
         .catch((error) => {
             res.status(500).json(error);
@@ -13,13 +27,15 @@ exports.addLocal = async (req, res) => {
         .finally(() => {
             db.disconnectDB();
         })
+
 };
 
 exports.getLocals = async (req, res) => {
     db.connectDB();
     await Local.find({})
+        .select("name email phone address registered isActive tags")
         .then((locals) => {
-            res.status(200).json(locals)
+            res.status(200).json(locals);
         })
         .catch((error) => {
             res.status(500).json(error);
@@ -38,23 +54,22 @@ exports.getLocal = async (req, res) => {
     }
     if (req.query.nameLocal) {
         nameLocal = req.query.nameLocal;
-    } 
-    await Local.findOne(
-        {
-            $or: [
-                { _id: idLocal },
-                { name: nameLocal }
-            ]
-        },
-        {
-            products: 1, _id: 1, name: 1 , address:1
-        }
-)
+    }
+    await Local.findOne({
+        $or: [
+            { _id: idLocal },
+            { name: nameLocal }
+        ]
+    }
+    )
+        .select("name email phone address")
+        .populate("products")
         .then((local) => {
-            res.status(200).json(local);
+            if (local) return res.status(200).json(local);
+            return res.status(404).json("No existe local con ese ID")
         })
-        .catch(() => {
-            res.status(404).json({message:"No Local with that ID"});
+        .catch((error) => {
+            res.status(404).json(error);
         })
         .finally(() => {
             db.disconnectDB();
@@ -63,31 +78,32 @@ exports.getLocal = async (req, res) => {
 
 exports.updateLocal = async (req, res) => {
     db.connectDB();
-    await Local.findOneAndUpdate({ 
-        _id: req.body._id 
-        },
+    await Local.findOneAndUpdate({
+        _id: req.body._id
+    },
         req.body,
-        { 
-            new: true 
+        {
+            new: true
         })
-            .then((data) => {
-                res.status(200).json(data);
-            })
-            .catch(() => {
-                res.status(500).json(error);
-            })
-            .finally(() => {
-                db.disconnectDB();
-            })
+        .select("name address email phone isActive")
+        .then((data) => {
+            res.status(200).json(data);
+        })
+        .catch(() => {
+            res.status(500).json(error);
+        })
+        .finally(() => {
+            db.disconnectDB();
+        })
 };
 
 exports.deleteLocal = async (req, res) => {
     db.connectDB();
-    await Local.findOneAndRemove({
-            _id: req.params.idLocal
-    })
+    await Product.deleteMany({ local: req.params.idLocal });
+    await Local.findOneAndRemove({ _id: req.params.idLocal })
         .then((data) => {
-            res.status(200).json(data);
+            if (data) res.status(200).json({message:"Local eliminado",data});
+            res.status(200).json("No existe el local ingresado");
         })
         .catch((error) => {
             res.status(500).json(error);
