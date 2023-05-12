@@ -12,6 +12,6 @@ export class ProductsService {
     private http: HttpClient) { }
 
   getProducts(localID: Number){
-    return this.http.get(this.urlBackend + "products/" + localID);
+    return this.http.get(this.urlBackend + "getProducts/" + localID);
   }
 }

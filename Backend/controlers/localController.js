@@ -33,9 +33,8 @@ exports.addLocal = async (req, res) => {
 exports.getLocals = async (req, res) => {
     db.connectDB();
     await Local.find({})
-        .select("name email phone address registered isActive tags")
-        .then((locals) => {
-            res.status(200).json(locals);
+        .then((data) => {
+            res.status(200).json(data)
         })
         .catch((error) => {
             res.status(500).json(error);
@@ -54,22 +53,23 @@ exports.getLocal = async (req, res) => {
     }
     if (req.query.nameLocal) {
         nameLocal = req.query.nameLocal;
-    }
-    await Local.findOne({
-        $or: [
-            { _id: idLocal },
-            { name: nameLocal }
-        ]
-    }
-    )
-        .select("name email phone address")
-        .populate("products")
-        .then((local) => {
-            if (local) return res.status(200).json(local);
-            return res.status(404).json("No existe local con ese ID")
+    } 
+    await Local.findOne(
+        {
+            $or: [
+                { _id: idLocal },
+                { name: nameLocal }
+            ]
+        },
+        {
+            products: 1, _id: 1, name: 1 , address:1
+        }
+)
+        .then((data) => {
+            res.status(200).json(data);
         })
         .catch((error) => {
-            res.status(404).json(error);
+            res.status(500).json(error);
         })
         .finally(() => {
             db.disconnectDB();
