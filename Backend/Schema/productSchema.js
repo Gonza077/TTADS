@@ -7,7 +7,6 @@ var productSchema = new mongoose.Schema(
         category: { type: String, default: null} ,
         subCategory: { type: String, default: null} ,
         price: { type: Number, default: undefined} ,
-        local: { type: mongoose.Types.ObjectId, ref: 'locals', required:true},
     }
 );
 
