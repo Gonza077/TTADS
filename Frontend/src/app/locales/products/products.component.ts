@@ -18,10 +18,8 @@ export class ProductsComponent implements OnInit{
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public localID: any,
-    private localService: LocalService,
-    private productService :ProductsService){
-
-  }
+    private localService: LocalService
+    ){}
 
   ngOnInit(): void {
     this.changeFilters();
@@ -68,7 +66,7 @@ export class ProductsComponent implements OnInit{
   pageSize!: number;
   lenght!: number;
   pageNum: number = 0;
-  pageSizeOptions = [5, 10]
+  pageSizeOptions = [3,5]
 
   @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild('empTbSort') empTbSort !: MatSort;

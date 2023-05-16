@@ -7,13 +7,15 @@ const Local = require('../Schema/localSchema');
 exports.addOrder = async (req, res) => {
     db.connectDB();          
     //Se busca el local con el ID ingresado
-    let local = await Local.findOne({ 
+    let local = await Local.find( 
+        { 
             _id: req.body.localID 
         },
         {
             products: 1, _id: 1, name: 1 , address:1
-        })
-        .then((data) => {      
+        }
+    )
+        .then((data) => {  
             //Para obtener la data de la BD
             return data;
         })
@@ -24,12 +26,12 @@ exports.addOrder = async (req, res) => {
     if (local){
         //Hay que filtrar los productos seleccionados
         //------ATADO CON ALAMBRE-----//
-        if (local.products.length > 0 ){   
+        if (local.products){   
             let products = []
             local.products.forEach( localProd => {
                 req.body.products.forEach(
                     orderProduct => {
-                        if (localProd._id == orderProduct._id){
+                        if (localProd._id == orderProduct){
                             products.push(localProd);
                         }
                     }                  
@@ -42,6 +44,7 @@ exports.addOrder = async (req, res) => {
             order.setLocal(local);
             //Se calcula el precio de la orden y se asigna al usuario
             order.calculatePriceOrder();
+            console.log(order);
             if(order.validateSync()){
                 return res.status(500).json(order.validateSync());
             }
@@ -68,7 +71,8 @@ exports.addOrder = async (req, res) => {
                     db.disconnectDB();
                 })
 
-        }else{
+        }
+        else{
             res.status(500).json("Local no tiene productos");
         }
     } else{

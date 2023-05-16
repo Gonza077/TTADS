@@ -3,10 +3,10 @@ const router = Router();
 const orderController = require('../controlers/orderController');
 
 //-------------------------ORDERS-------------------------//
-router.post('/addOrder/:idUser', orderController.addOrder);
-router.get('/getOrders/:idUser', orderController.getOrders);
-router.get('/getOrder/:idUser', orderController.getOrder);
-router.put('/updateOrder/:idUser', orderController.updateOrder);
-router.delete('/deleteOrder/:idUser', orderController.deleteOrder);
+router.post('/add/:idUser', orderController.addOrder);
+router.get('/orders/:idUser', orderController.getOrders);
+router.get('/order/:idUser', orderController.getOrder);
+router.put('/update/:idUser', orderController.updateOrder);
+router.delete('/delete/:idUser', orderController.deleteOrder);
 
 module.exports = router;
