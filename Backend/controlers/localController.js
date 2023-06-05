@@ -1,9 +1,6 @@
 const db = require('./DB');
 const Local = require('../Schema/localSchema');
-const mongoose = require('mongoose');
-const Product = require('../Schema/productSchema');
 
-//------------------------------LOCALES------------------------------//
 exports.addLocal = async (req, res) => {
     db.connectDB();
     await Local.create(req.body)
@@ -20,9 +17,9 @@ exports.addLocal = async (req, res) => {
 
 exports.getLocals = async (req, res) => {
     db.connectDB();
-    await Local.getAllLocals()
-        .then((data) => {
-            res.status(200).json(data)
+    await Local.find({})
+        .then((locals) => {
+            res.status(200).json(locals)
         })
         .catch((error) => {
             res.status(500).json(error);
@@ -42,12 +39,22 @@ exports.getLocal = async (req, res) => {
     if (req.query.nameLocal) {
         nameLocal = req.query.nameLocal;
     } 
-    await Local.getLocal(idLocal,nameLocal)
-        .then((data) => {
-            res.status(200).json(data);
+    await Local.findOne(
+        {
+            $or: [
+                { _id: idLocal },
+                { name: nameLocal }
+            ]
+        },
+        {
+            products: 1, _id: 1, name: 1 , address:1
+        }
+)
+        .then((local) => {
+            res.status(200).json(local);
         })
-        .catch((error) => {
-            res.status(500).json(error);
+        .catch(() => {
+            res.status(404).json({message:"No Local with that ID"});
         })
         .finally(() => {
             db.disconnectDB();
@@ -56,21 +63,29 @@ exports.getLocal = async (req, res) => {
 
 exports.updateLocal = async (req, res) => {
     db.connectDB();
-    await Local.updateLocal(req.body)
-        .then((data) => {
-            res.status(200).json(data);
+    await Local.findOneAndUpdate({ 
+        _id: req.body._id 
+        },
+        req.body,
+        { 
+            new: true 
         })
-        .catch(() => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch(() => {
+                res.status(500).json(error);
+            })
+            .finally(() => {
+                db.disconnectDB();
+            })
 };
 
 exports.deleteLocal = async (req, res) => {
     db.connectDB();
-    await Local.deleteLocal(req.params.idLocal)
+    await Local.findOneAndRemove({
+            _id: req.params.idLocal
+    })
         .then((data) => {
             res.status(200).json(data);
         })
@@ -81,228 +96,8 @@ exports.deleteLocal = async (req, res) => {
             db.disconnectDB();
         });
 }
-//------------------------------LOCALES------------------------------//
 
-//------------------------------PRODUCTOS------------------------------//
-exports.getProducts = async (req, res) => {
-    db.connectDB();
-    await Local.findOne(
-        {
-            _id: req.params.idLocal
-        },
-        {
-            _id: 1,
-            name: 1,
-            products: 1
-        }
-    )
-        .then(data => {
-            res.status(200).json(data)
-        })
-        .catch((error) => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-}
 
-exports.getProduct = async (req, res) => {
-    db.connectDB();
-    //Casteo de valores nulos o faltantes
-    if (!req.query.nameProduct) {
-        req.query.nameProduct = null
-    }
-    if (!req.query.idProduct) {
-        req.query.idProduct = null
-    }
-    await Local.findOne(
-        {
-            _id: req.query.idLocal,
-            products: {
-                $elemMatch: {
-                    $or: [
-                        { _id: mongoose.Types.ObjectId(req.query.idProduct) },
-                        { name: req.query.nameProduct }
-                    ]
-                }
-            },
-        },
-        {
-            _id: 1,
-            "products.$": 1,
-        }
-    )
-        .then(data => {
-            res.status(200).json(data);
-        })
-        .catch((error) => {
-            res.send(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-}
-
-exports.addProduct = async (req, res) => {
-    db.connectDB();
-    console.log(req.body);
-    await Local.findOneAndUpdate(
-        {
-            _id: req.params.idLocal,
-        },
-        {
-            $addToSet: { products: new Product(req.body) }
-        }
-    )
-        .then((data) => {
-            res.status(200).json(data);
-        })
-        .catch((error) => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-};
-
-exports.deleteProduct = async (req, res) => {
-    db.connectDB();
-    await Local.findOneAndUpdate(
-        {
-            _id: req.body.idLocal,
-            products: {
-                $elemMatch: { _id: mongoose.Types.ObjectId(req.body.idProduct) }
-            },
-        },
-        {
-            $pull: {
-                products: { _id: mongoose.Types.ObjectId(req.body.idProduct) }
-            }
-        }
-    )
-        .then((data) => {
-            res.status(200).json(data)
-        })
-        .catch((error) => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-}
-
-exports.editProduct = async (req, res) => {
-    db.connectDB();
-    await Local.findOneAndUpdate(
-        {
-            _id: req.body.idLocal,
-            products: {
-                $elemMatch: { _id: mongoose.Types.ObjectId(req.body.idProduct) }
-            },
-        },
-        {
-            $set:
-            {
-                "products.$.name": req.body.name,
-                "products.$.description": req.body.description,
-                "products.$.category": req.body.category,
-                "products.$.price": req.body.price,
-            }
-        },
-        { new: true }
-    )
-        .then((data) => {
-            res.status(200).json(data);
-        })
-        .catch((error) => {
-            res.status(500).json(error);
-        })
-        .finally(() => {
-            db.disconnectDB();
-        })
-};
-
-//------------------------------DESUSO------------------------------//
-// exports.getLocal = async (req, res) => {
-//     db.connectDB();
-//     Local.findOne({
-//         _id: req.params.idLocal
-//     })
-//         .then((local) => {
-//             res.send(local);
-//         })
-//         .catch((error) => {
-//             res.status(500).json(error);
-//         })
-//         .finally(() => {
-//             db.disconnectDB();
-//         })
-// };
-
-// exports.getLocalByName = async (req, res) => {
-//     db.connectDB();
-//     await Local.find(
-//         { name: req.params.nameLocal },
-//     )
-//         .then((locales) => {
-//             res.json(locales);
-//         })
-//         .catch((error) => {
-//             console.error(error);
-//             res.status(500).send('Hubo un error');
-//         })
-//         .finally(() => {
-//             db.disconnectDB();
-//         })
-// };
-
-// exports.getProduct = async (req, res) => {
-//     db.connectDB();
-//     await Local.findOne(
-//         {
-//             _id: req.body.idLocal,
-//             products: { $elemMatch: { _id: mongoose.Types.ObjectId(req.body.idProduct) } },
-//         },
-//         {
-//             _id: 1,
-//             name: 1,
-//             "products.$": 1,
-//         }
-//     )
-//         .then(data => {
-//             res.status(200).json(data);
-//         })
-//         .catch((error) => {
-//             res.send(500).json(error);
-//         })
-//         .finally(() => {
-//             db.disconnectDB();
-//         })
-// }
-
-// exports.getProductByName = async (req, res) => {
-//     db.connectDB();
-//     await Local.find(
-//         {
-//             _id: req.body.idLocal,
-//             products: { $elemMatch: { name: req.body.nameProduct } },
-//         },
-//         {
-//             _id: 1,
-//             name: 1,
-//             "products.$": 1,
-//         })
-//         .then(data => {
-//             res.status(200).json(data);
-//         })
-//         .catch((error) => {
-//             res.send(500).json(error);
-//         })
-//         .finally(() => {
-//             db.disconnectDB();
-//         })
-// }
 
 
 

@@ -27,7 +27,7 @@ export class UserService {
   }
 
   getUser(user: string) {
-    return this.http.get(this.urlBackend +"getUser/"+ user);
+    return this.http.get(this.urlBackend +"user/"+ user);
   }
 
   RegisterUser(valueForm: any) {
@@ -35,11 +35,11 @@ export class UserService {
   }
 
   editUser(valueForm: any) {
-    return this.http.put(this.urlBackend + "updateUser", valueForm.value).subscribe();
+    return this.http.put(this.urlBackend + "update", valueForm.value).subscribe();
   }
 
   deleteUser(userID: any) {
-    return this.http.delete(this.urlBackend + "deleteUser/"+userID).subscribe();
+    return this.http.delete(this.urlBackend + "delete/"+userID).subscribe();
   }
 
 }

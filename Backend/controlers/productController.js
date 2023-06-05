@@ -30,33 +30,30 @@ exports.getProducts = async (req, res) => {
 exports.getProduct = async (req, res) => {
     db.connectDB();
     //Casteo de valores nulos o faltantes
-    let nameProduct=null;
+    let nameProduct = null;
     let idProduct = null;
     //Casteo de valores nulos o faltantes
     if (req.body.nameProduct) {
-        nameProduct= req.body.nameProduct;
+        nameProduct = req.body.nameProduct;
     }
     if (req.body.idProduct) {
-        idProduct =  req.body.idProduct;
+        idProduct = req.body.idProduct;
     }
-    await Local.getProduct(req.params.idLocal, nameProduct,idProduct)
-    // await Local.findOne(
-    //     {
-    //         _id: mongoose.Types.ObjectId(req.params.idLocal),
-    //         products: {
-    //             $elemMatch: {
-    //                 $or: [
-    //                     { _id: mongoose.Types.ObjectId(idProduct) },
-    //                     { name: nameProduct }
-    //                 ]
-    //             }
-    //         },
-    //     },
-    //     {   
-    //         _id:0,
-    //         "products.$": 1,
-    //     }
-    // )
+    await Local.findOne({
+        _id: mongoose.Types.ObjectId(req.params.idLocal),
+        products: {
+            $elemMatch: {
+                $or: [
+                    { _id: mongoose.Types.ObjectId(idProduct) },
+                    { name: nameProduct }
+                ]
+            }
+        },
+    },
+        {
+            _id: 0,
+            "products.$": 1,
+        })
         .then(data => {
             res.status(200).json(data);
         })
@@ -72,9 +69,9 @@ exports.addProduct = async (req, res) => {
     db.connectDB();
     let product = new Product(req.body);
     //Valida la creacion del producto
-    if (product.validateSync()){
+    if (product.validateSync()) {
         return res.status(500).json(product.validateSync());
-    } 
+    }
     await Local.findOneAndUpdate(
         {
             _id: req.params.idLocal,
@@ -98,7 +95,7 @@ exports.deleteProduct = async (req, res) => {
     db.connectDB();
     await Local.findOneAndUpdate(
         {
-            _id: req.body.idLocal,
+            _id: req.params.idLocal,
             products: {
                 $elemMatch: { _id: mongoose.Types.ObjectId(req.body.idProduct) }
             },

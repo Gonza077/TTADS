@@ -1,22 +1,21 @@
 var mongoose = require('mongoose');
 const Local = require("./localSchema")
 
-var ordersSchema = new mongoose.Schema(    
+var ordersSchema = new mongoose.Schema(
     {
         date: { type: Date, default: Date.now },
-        local: {type: Local.schema},
+        local: { type: Local.schema, required: true },
         price: { type: Number, default: 0 },
     }
 );
 
-ordersSchema.methods.calculatePriceOrder = function (){
-    //ACA POR CADA PRODUCTOS DE LLOCAL DEBERIA CALCULARSE EL PRECIO FINAL
+ordersSchema.methods.calculatePriceOrder = function () {
     this.local.products.forEach(Prod => {
-        this.price += Prod.price; 
+        this.price += Prod.price;
     });
 }
 
-ordersSchema.methods.setLocal = function (local){
+ordersSchema.methods.setLocal = function (local) {
     this.local = local;
 }
 
