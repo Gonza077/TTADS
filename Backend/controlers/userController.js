@@ -35,7 +35,11 @@ exports.getUser = async (req, res) => {
     await Usuario.findOne(
         {
             _id: req.params.idUser
-        })
+        },
+        {
+            orders:0
+        }
+        )
         .then((data) => {
             if (data) {
                 return res.status(200).json(data);

@@ -66,8 +66,8 @@ export class UsersComponent {
 
   //-------------------------------TABLE-------------------------------
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ["name","userName","address","email","phone","options"];
-  filterColumns: string[]= ["name","userName","address" ,"email","phone"];
+  displayedColumns: string[] = ["name","address","email","phone","options"];
+  filterColumns: string[]= ["name","address" ,"email","phone"];
   filterValue:any;
 
   changeFilters(){

@@ -45,9 +45,9 @@
           </ng-container>
           <!-------------------Filtro x columna------------------->
           <tr class="mat-row p-2" *matNoDataRow>
-            <h1 *ngIf="local.products" class="p-2">El local ingresado no posee productos</h1>
+            <!-- <h1 *ngIf="local.products" class="p-2">El local ingresado no posee productos</h1> -->
             <td *ngFor="let col of filterColumns">
-              <h3 *ngIf="!local.products">No existen valores para "{{filterValue}}"</h3>
+              <h3 *ngIf="local.products">No existen valores para "{{filterValue}}"</h3>
             </td>
           </tr>
           <!-------------------Filtro x columna------------------->
